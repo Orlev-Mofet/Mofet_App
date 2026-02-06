@@ -1,0 +1,171 @@
+import {useEffect, useState} from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import RNRestart from 'react-native-restart';
+
+import {storeStorageData} from '../../../utils/localStorage';
+import {SK_RESTART_TIME} from '../../../utils/constants';
+import {useLocale, useUser, PersonalSettingModal} from '../../../components';
+import SelectDropdown from 'react-native-select-dropdown';
+
+export default function MainHeader({
+  navigation,
+}: {
+  navigation: any;
+}): React.JSX.Element {
+  const languages = ['English', 'עִברִית', 'العربية'];
+  const langKeys = ['en', 'he', 'ar'];
+
+  const {locale, setLocaleValue} = useLocale();
+  const {userData} = useUser();
+
+  const [localeText, setLocaleText] = useState<string>('En');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (locale === 'en') setLocaleText('English');
+    else if (locale === 'he') setLocaleText('עִברִית');
+    else if (locale === 'ar') setLocaleText('العربية');
+  }, [locale]);
+
+  useEffect(() => {
+    if (
+      userData?.first_name == '' ||
+      userData?.first_name == null ||
+      userData?.field_of_interest == '' ||
+      userData?.field_of_interest == null
+    ) {
+      setIsModalVisible(true);
+    }
+  }, [userData]);
+
+  const onLocaleChange = async () => {
+    const timestamp = Date.now();
+    const newTimestamp = new Date(timestamp);
+    newTimestamp.setSeconds(newTimestamp.getSeconds() + 10);
+    const addedSeconds = newTimestamp.getTime();
+
+    await storeStorageData(SK_RESTART_TIME, `${addedSeconds}`);
+    RNRestart.restart();
+  };
+
+  const onPolicyPressed = () => {
+    navigation.navigate('privacy_policy');
+  };
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  return (
+    <View
+      style={[styles.container, {direction: locale === 'en' ? 'ltr' : 'rtl'}]}>
+      <Image
+        source={require('../../../../assets/images/logo-main.png')}
+        style={styles.logo}
+      />
+
+      <View style={styles.settingContainer}>
+        <View style={styles.settingSelectItem}>
+          {/* <Text style={styles.textItem} onPress={onLocaleChange} >{ localeText }</Text> */}
+          <SelectDropdown
+            data={languages}
+            onSelect={(selectedItem, index) => {
+              setLocaleValue(langKeys[index]);
+              onLocaleChange();
+            }}
+            buttonStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.2)',
+              borderWidth: 1,
+              borderColor: 'rgba(112, 112, 112, 0.2)',
+              borderRadius: 10,
+              width: '100%',
+              paddingLeft: 5,
+              paddingRight: 0,
+              paddingVertical: 0,
+              height: 30,
+            }}
+            buttonTextStyle={{
+              fontSize: 12,
+              fontFamily: 'Montserrat-Medium',
+              color: 'white',
+              paddingVertical: 0,
+            }}
+            renderDropdownIcon={isOpened => (
+              <Image
+                source={require('../../../../assets/images/chevron-down.png')}
+                style={{marginRight: 5, tintColor: '#FFFFFF'}}
+              />
+            )}
+            defaultButtonText=" "
+            defaultValue={localeText}
+          />
+        </View>
+        <Pressable style={styles.settingItem} onPress={onPolicyPressed}>
+          <Image
+            source={require('../../../../assets/images/policy.png')}
+            style={styles.imagePolicyItem}
+          />
+        </Pressable>
+        <Pressable style={styles.settingItem} onPress={toggleModal}>
+          <Image
+            source={require('../../../../assets/images/setting.png')}
+            style={styles.imageSettingItem}
+          />
+        </Pressable>
+      </View>
+
+      <PersonalSettingModal
+        isModalVisible={isModalVisible}
+        toggleModal={toggleModal}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    flex: 1,
+    backgroundColor: '#00658F',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingHorizontal: 20,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  logo: {
+    width: 133,
+    height: 29,
+  },
+  settingContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  settingItem: {
+    width: 30,
+    height: 30,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  settingSelectItem: {
+    width: 90,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textItem: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  imageSettingItem: {},
+  imagePolicyItem: {},
+});
