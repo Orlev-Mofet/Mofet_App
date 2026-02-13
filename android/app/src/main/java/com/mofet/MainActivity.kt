@@ -1,4 +1,4 @@
-package com.mofet
+package com.mofet.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

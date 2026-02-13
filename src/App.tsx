@@ -5,11 +5,10 @@
  * @format
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import ReactNative, { I18nManager, LogBox } from 'react-native';
+import { I18nManager } from 'react-native';
 import { IntlProvider } from 'react-intl';
-import * as RNLocalize from 'react-native-localize';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -27,7 +26,6 @@ import Register from './screens/auth/register';
 import Verify from './screens/auth/verify';
 import MainPage from './screens/main';
 import PrivacyAndPolicy from './screens/privacy_policy';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { toastConfig } from './utils/toastConfig';
 import RegisterWithEmail from './screens/auth/registerWithEmail';
@@ -48,27 +46,18 @@ function LocalizationWrapper() {
 export default LocalizationWrapper;
 
 function App(): React.JSX.Element {
-  const { locale, direction, messages, setLocaleValue } = useLocale();
-  const [init, setInit] = useState<boolean>(true);
-  const [defaultNavigate, setDefaultNavigate] = useState<string>('');
+  const { locale, direction, messages } = useLocale();
 
   useEffect(() => {
     if (direction === 'rtl' && !I18nManager.isRTL) {
       I18nManager.allowRTL(true);
       I18nManager.forceRTL(true);
-      ReactNative.DevSettings.reload(); // або RNRestart
     }
 
     if (direction === 'ltr' && I18nManager.isRTL) {
       I18nManager.forceRTL(false);
-      ReactNative.DevSettings.reload();
     }
   }, [direction]);
-
-  // useEffect(() => {
-  //   I18nManager.forceRTL(direction === "rtl");
-  //   I18nManager.allowRTL(true);
-  // }, [ direction ])
 
   return (
     <IntlProvider locale={locale} messages={messages}>

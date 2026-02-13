@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001354337542",
+    "project_id": "mofet-f354c",
+    "storage_bucket": "mofet-f354c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001354337542:android:b2aae89955f9f77c34d287",
+        "android_client_info": {
+          "package_name": "com.mofet.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6DqNh1lsUEedS2-6Em770_Cod5UkHPy8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

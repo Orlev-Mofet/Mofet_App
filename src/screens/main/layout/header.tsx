@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import RNRestart from 'react-native-restart';
 
-import {storeStorageData} from '../../../utils/localStorage';
-import {SK_RESTART_TIME} from '../../../utils/constants';
-import {useLocale, useUser, PersonalSettingModal} from '../../../components';
+import { storeStorageData } from '../../../utils/localStorage';
+import { SK_RESTART_TIME } from '../../../utils/constants';
+import { useLocale, useUser, PersonalSettingModal } from '../../../components';
 import SelectDropdown from 'react-native-select-dropdown';
 
 export default function MainHeader({
@@ -15,8 +15,8 @@ export default function MainHeader({
   const languages = ['English', 'עִברִית', 'العربية'];
   const langKeys = ['en', 'he', 'ar'];
 
-  const {locale, setLocaleValue} = useLocale();
-  const {userData} = useUser();
+  const { locale, setLocaleValue } = useLocale();
+  const { userData } = useUser();
 
   const [localeText, setLocaleText] = useState<string>('En');
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -58,7 +58,8 @@ export default function MainHeader({
 
   return (
     <View
-      style={[styles.container, {direction: locale === 'en' ? 'ltr' : 'rtl'}]}>
+      style={[styles.container, { direction: locale === 'en' ? 'ltr' : 'rtl' }]}
+    >
       <Image
         source={require('../../../../assets/images/logo-main.png')}
         style={styles.logo}
@@ -73,30 +74,36 @@ export default function MainHeader({
               setLocaleValue(langKeys[index]);
               onLocaleChange();
             }}
-            buttonStyle={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              borderWidth: 1,
-              borderColor: 'rgba(112, 112, 112, 0.2)',
-              borderRadius: 10,
-              width: '100%',
-              paddingLeft: 5,
-              paddingRight: 0,
-              paddingVertical: 0,
-              height: 30,
+            renderButton={(selectedItem, isOpened) => {
+              return (
+                <View style={styles.dropdownButtonStyle}>
+                  <Text style={styles.dropdownButtonTxtStyle}>
+                    {selectedItem || ' '}
+                  </Text>
+                  <Image
+                    source={require('../../../../assets/images/chevron-down.png')}
+                    style={[
+                      styles.dropdownArrow,
+                      isOpened && { transform: [{ rotate: '180deg' }] },
+                    ]}
+                  />
+                </View>
+              );
             }}
-            buttonTextStyle={{
-              fontSize: 12,
-              fontFamily: 'Montserrat-Medium',
-              color: 'white',
-              paddingVertical: 0,
+            renderItem={(item, index, isSelected) => {
+              return (
+                <View
+                  style={[
+                    styles.dropdownItemStyle,
+                    isSelected && { backgroundColor: '#D2D9DF' },
+                  ]}
+                >
+                  <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                </View>
+              );
             }}
-            renderDropdownIcon={isOpened => (
-              <Image
-                source={require('../../../../assets/images/chevron-down.png')}
-                style={{marginRight: 5, tintColor: '#FFFFFF'}}
-              />
-            )}
-            defaultButtonText=" "
+            showsVerticalScrollIndicator={false}
+            dropdownStyle={styles.dropdownMenuStyle}
             defaultValue={localeText}
           />
         </View>
@@ -124,7 +131,7 @@ export default function MainHeader({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    paddingTop: 50,
     flex: 1,
     backgroundColor: '#00658F',
     borderBottomLeftRadius: 30,
@@ -135,6 +142,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     display: 'flex',
     flexDirection: 'row',
+  },
+  dropdownArrow: {
+    marginRight: 5,
+    tintColor: '#FFFFFF',
+  },
+
+  dropdownMenuStyle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+  },
+
+  dropdownItemStyle: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+
+  dropdownItemTxtStyle: {
+    fontSize: 12,
+    fontFamily: 'Montserrat-Medium',
+    color: '#000',
   },
   logo: {
     width: 133,
@@ -147,6 +174,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
+  dropdownButtonStyle: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(112, 112, 112, 0.2)',
+    borderRadius: 10,
+    width: '100%',
+    height: 30,
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  dropdownButtonTxtStyle: {
+    fontSize: 12,
+    fontFamily: 'Montserrat-Medium',
+    color: 'white',
+  },
+
   settingItem: {
     width: 30,
     height: 30,

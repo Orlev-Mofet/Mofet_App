@@ -33,10 +33,10 @@ export default function PersonalSettingModal({
   const intl = useIntl();
   const { setUserData, userData, setShowContactUs, setRemoveConfirmation } =
     useUser();
-  const { constant, locale } = useLocale();
+  const { constant, messages, locale } = useLocale();
 
   const [years, setYears] = useState<number[]>([]);
-  const grades = ['GRADE 1', 'GRADE 2', 'GRADE 3', 'GRADE 4', 'GRADE 5'];
+  const grades = messages['grade'] || [];
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
@@ -100,7 +100,6 @@ export default function PersonalSettingModal({
     };
 
     console.log(data);
-    
 
     try {
       setIsFetching(true);
@@ -122,7 +121,7 @@ export default function PersonalSettingModal({
       }
     } catch (error: any) {
       console.log(error);
-      
+
       console.log(error.message);
       setIsFetching(false);
     }
@@ -469,10 +468,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
 
-  dropdownArrow: {
-    width: 14,
-    height: 14,
-  },
+  dropdownArrow: {},
 
   dropdownMenuStyle: {
     backgroundColor: '#FFFFFF',
