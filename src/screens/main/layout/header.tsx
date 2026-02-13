@@ -131,7 +131,7 @@ export default function MainHeader({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 20,
     flex: 1,
     backgroundColor: '#00658F',
     borderBottomLeftRadius: 30,

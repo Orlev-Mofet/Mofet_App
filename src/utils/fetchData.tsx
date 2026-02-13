@@ -1,8 +1,8 @@
-import {create} from 'apisauce';
+import { create } from 'apisauce';
 
-import {BACKEND_API_URL, SK_TOKEN} from './constants';
-import {getStorageData} from './localStorage';
-import {CommonObject} from '../components';
+import { BACKEND_API_URL, SK_TOKEN } from './constants';
+import { getStorageData } from './localStorage';
+import { CommonObject } from '../components';
 
 // create api.
 const api = create({

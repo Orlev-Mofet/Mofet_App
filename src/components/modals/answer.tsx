@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,12 +11,14 @@ import {
   Keyboard,
 } from 'react-native';
 
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import Modal from 'react-native-modal';
-import EmojiPicker, {EmojiType} from 'rn-emoji-keyboard';
-import DocumentPicker, {
+import EmojiPicker, { EmojiType } from 'rn-emoji-keyboard';
+import {
+  pick,
+  types,
   DocumentPickerResponse,
-} from 'react-native-document-picker';
+} from '@react-native-documents/picker';
 
 import {
   CustomButton,
@@ -32,15 +34,15 @@ import {
   getFetchData,
   storeFetchProgressFormData,
 } from '../../utils/fetchData';
-import {ST_ERROR, ST_SUCCESS, bytesToMB} from '../../utils/constants';
+import { ST_ERROR, ST_SUCCESS, bytesToMB } from '../../utils/constants';
 
 export default function AnswerModal(): React.JSX.Element {
   const intl = useIntl();
 
-  const {locale, constant} = useLocale();
-  const {userData} = useUser();
-  const {setUpdateQuestionItem} = useQuestion();
-  const {selQuestionId, setSelQuestionId} = useQuestion();
+  const { locale, constant } = useLocale();
+  const { userData } = useUser();
+  const { setUpdateQuestionItem } = useQuestion();
+  const { selQuestionId, setSelQuestionId } = useQuestion();
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -59,7 +61,7 @@ export default function AnswerModal(): React.JSX.Element {
 
     if (answer === '') {
       ToastAndroid.show(
-        intl.formatMessage({id: `lang.${locale}.input_answer`}),
+        intl.formatMessage({ id: `lang.${locale}.input_answer` }),
         ToastAndroid.SHORT,
       );
       return;
@@ -71,8 +73,8 @@ export default function AnswerModal(): React.JSX.Element {
     ) {
       ToastAndroid.show(
         intl.formatMessage(
-          {id: `lang.${locale}.upload_file_size_limit`},
-          {file_size: `${constant?.max_upload_size} MB`},
+          { id: `lang.${locale}.upload_file_size_limit` },
+          { file_size: `${constant?.max_upload_size} MB` },
         ),
         ToastAndroid.SHORT,
       );
@@ -111,7 +113,7 @@ export default function AnswerModal(): React.JSX.Element {
         );
 
         ToastAndroid.show(
-          intl.formatMessage({id: `lang.${locale}.answer_saved_success`}),
+          intl.formatMessage({ id: `lang.${locale}.answer_saved_success` }),
           ToastAndroid.SHORT,
         );
         setSelQuestionId(0);
@@ -154,30 +156,26 @@ export default function AnswerModal(): React.JSX.Element {
 
   const handleFilePick = async () => {
     try {
-      const result = await DocumentPicker.pickSingle({
-        type: [
-          DocumentPicker.types.audio,
-          DocumentPicker.types.video,
-          DocumentPicker.types.images,
-        ],
+      const result = await pick({
+        allowMultiSelection: false,
+        type: [types.audio, types.video, types.images],
       });
 
-      setFile(result);
-      setFileSort(result?.type?.split('/')[0] || '');
-      setFileType(
-        result?.name?.split('.')[result?.name?.split('.').length - 1] || '',
-      );
+      const fileData = result[0];
+
+      setFile(fileData);
+      setFileSort(fileData?.type?.split('/')[0] || '');
+      setFileType(fileData?.name?.split('.').pop() || '');
     } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker
-      } else {
-        throw err;
+      if (err?.code === 'DOCUMENT_PICKER_CANCELED') {
+        // user cancelled
+        return;
       }
     }
   };
 
   const onSelectionChange = (event: any) => {
-    const {start} = event.nativeEvent.selection;
+    const { start } = event.nativeEvent.selection;
     setSelectionStart(start);
   };
 
@@ -195,7 +193,7 @@ export default function AnswerModal(): React.JSX.Element {
           </View>
           <View style={styles.contentContainer}>
             <TextMont4Normal style={styles.header}>
-              {intl.formatMessage({id: 'label.main.answer'})}
+              {intl.formatMessage({ id: 'label.main.answer' })}
             </TextMont4Normal>
 
             <View style={styles.content}>
@@ -212,7 +210,8 @@ export default function AnswerModal(): React.JSX.Element {
               <View style={styles.iconContainer}>
                 <Pressable
                   style={styles.roundContainer}
-                  onPress={() => setIsOpen(true)}>
+                  onPress={() => setIsOpen(true)}
+                >
                   <Image
                     source={require('../../../assets/images/emoji_icon.png')}
                     style={styles.icon}
@@ -221,27 +220,30 @@ export default function AnswerModal(): React.JSX.Element {
                 <Pressable
                   style={[
                     styles.roundContainer,
-                    file && {backgroundColor: '#1485A3'},
+                    file && { backgroundColor: '#1485A3' },
                   ]}
-                  onPress={handleFilePick}>
+                  onPress={handleFilePick}
+                >
                   <Image
                     source={require('../../../assets/images/pin_icon.png')}
                     style={[
                       styles.icon,
-                      !file ? {tintColor: '#6A6A6A'} : {tintColor: '#FFFFFF'},
+                      !file
+                        ? { tintColor: '#6A6A6A' }
+                        : { tintColor: '#FFFFFF' },
                     ]}
                   />
                 </Pressable>
 
                 {file && isFetching && progress > 0 && progress < 1 && (
-                  <TextPopp4Regular style={{paddingTop: 10}}>
+                  <TextPopp4Regular style={{ paddingTop: 10 }}>
                     {Math.floor(progress * 100)}%
                   </TextPopp4Regular>
                 )}
               </View>
               <View style={styles.buttonContainer}>
                 <CustomButton
-                  title={intl.formatMessage({id: 'label.main.send'})}
+                  title={intl.formatMessage({ id: 'label.main.send' })}
                   onPress={onSendQuestionPressed}
                   size="small"
                   icon={'flight'}
@@ -249,7 +251,7 @@ export default function AnswerModal(): React.JSX.Element {
                 />
               </View>
             </View>
-            <View style={{direction: 'ltr'}}>
+            <View style={{ direction: 'ltr' }}>
               <EmojiPicker
                 onEmojiSelected={(emoji: EmojiType) => handleEmojiPick(emoji)}
                 open={isOpen}
