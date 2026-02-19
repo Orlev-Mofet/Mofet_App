@@ -8,10 +8,10 @@ import {
   I18nManager,
   ToastAndroid,
 } from 'react-native';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Video from 'react-native-video';
 import AwesomeLoading from 'react-native-awesome-loading';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import VideoPlayer from 'react-native-video-controls';
 
 import {
@@ -23,7 +23,7 @@ import {
   useQuestion,
   useLocale,
 } from '..';
-import {BACKEND_STORAGE_URL} from '../../utils/constants';
+import { BACKEND_STORAGE_URL } from '../../utils/constants';
 import {
   storeFetchData,
   updateFetchData,
@@ -34,11 +34,11 @@ interface QIInterface {
   data: any;
 }
 
-export default function QuestionItem({data}: QIInterface): React.JSX.Element {
+export default function QuestionItem({ data }: QIInterface): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
+  const { locale } = useLocale();
 
-  const {userData} = useUser();
+  const { userData } = useUser();
   const {
     setSelQuestionId,
     setSelAbuseData,
@@ -121,6 +121,8 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
     setShowControls(!showQuestionModal);
   }, [showQuestionModal]);
 
+  console.log(data, 'FDDD');
+
   return (
     <View>
       <View style={styles.EquestionContainer}>
@@ -138,9 +140,9 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
                     'question_sm/',
                   )}`,
                 }}
-                style={[styles.Eimage, {display: loading ? 'none' : 'flex'}]}
-                onLoadStart={() => setLoadng(true)}
-                onLoadEnd={() => setLoadng(false)}
+                style={[styles.Eimage]}
+                // onLoadStart={() => setLoadng(true)}
+                // onLoadEnd={() => setLoadng(false)}
               />
             )}
             {data.file_sort === 'video' && (
@@ -155,7 +157,7 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
               //   onTouchEnd={handleTouchEnd}
               // />
               <VideoPlayer
-                source={{uri: `${BACKEND_STORAGE_URL}${data.file_path}`}}
+                source={{ uri: `${BACKEND_STORAGE_URL}${data.file_path}` }}
                 onTouchEnd={handleTouchEnd}
                 paused={true}
                 showOnStart={true}
@@ -176,10 +178,11 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
                   alignItems: 'center',
                   zIndex: 100,
                 }}
-                onPress={handleTouchEnd}>
+                onPress={handleTouchEnd}
+              >
                 <Image
                   source={require('../../../assets/images/video-play.png')}
-                  style={{width: 50, height: 50}}
+                  style={{ width: 50, height: 50 }}
                 />
               </Pressable>
             )}
@@ -195,7 +198,7 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
 
         <TextPopp4Regular style={styles.EinfoText}>
           {intl.formatMessage(
-            {id: 'label.main.posted_by'},
+            { id: 'label.main.posted_by' },
             {
               value: `${data?.user?.first_name || ''} (${
                 data?.user?.school_name || ''
@@ -211,12 +214,12 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
                 {voteLike ? (
                   <Image
                     source={require('../../../assets/icons/Icons/like_hover.png')}
-                    style={{width: 14, height: 14}}
+                    style={{ width: 14, height: 14 }}
                   />
                 ) : (
                   <Image
                     source={require('../../../assets/icons/Icons/like.png')}
-                    style={{width: 14, height: 14}}
+                    style={{ width: 14, height: 14 }}
                   />
                 )}
               </Pressable>
@@ -229,12 +232,12 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
                 {voteUnlike ? (
                   <Image
                     source={require('../../../assets/icons/Icons/unlike_hover.png')}
-                    style={{width: 14, height: 14}}
+                    style={{ width: 14, height: 14 }}
                   />
                 ) : (
                   <Image
                     source={require('../../../assets/icons/Icons/unlike.png')}
-                    style={{width: 14, height: 14}}
+                    style={{ width: 14, height: 14 }}
                   />
                 )}
               </Pressable>
@@ -246,17 +249,17 @@ export default function QuestionItem({data}: QIInterface): React.JSX.Element {
         </View>
       </View>
       <View style={styles.bottomButtonContainer}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <CustomButton
-            title={intl.formatMessage({id: 'label.main.answer'})}
+            title={intl.formatMessage({ id: 'label.main.answer' })}
             onPress={() => setSelQuestionId(data?.id)}
             size="small"
           />
         </View>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <CustomButton
-            title={intl.formatMessage({id: 'label.main.abuse'})}
-            onPress={() => setSelAbuseData({id: data?.id, sort: 'question'})}
+            title={intl.formatMessage({ id: 'label.main.abuse' })}
+            onPress={() => setSelAbuseData({ id: data?.id, sort: 'question' })}
             size="small"
             icon="abuse"
           />

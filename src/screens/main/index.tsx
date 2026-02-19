@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   },
 
   topText: {
-    color: '#00658f',
+    color: '#04939E',
     marginTop: 20,
     marginBottom: 10,
     textTransform: 'uppercase',

@@ -1,8 +1,15 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useIntl} from 'react-intl';
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useIntl } from 'react-intl';
 
-import {CustomButton, TextMont4Normal, useLocale} from '../../components';
+import { CustomButton, TextMont4Normal, useLocale } from '../../components';
 
 export default function PrivacyAndPolicy({
   navigation,
@@ -10,7 +17,7 @@ export default function PrivacyAndPolicy({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale, messages} = useLocale();
+  const { locale, messages } = useLocale();
 
   const onBackPressed = () => {
     navigation.goBack();
@@ -31,7 +38,7 @@ export default function PrivacyAndPolicy({
         </Pressable>
         <View style={styles.logoContainer}>
           <Image
-            source={require('../../../assets/images/logo-h.png')}
+            source={require('../../../assets/images/logoDefault.png')}
             style={styles.logo}
           />
         </View>
@@ -39,11 +46,11 @@ export default function PrivacyAndPolicy({
 
       <View style={styles.contentContainer}>
         <TextMont4Normal style={styles.headerText}>
-          {intl.formatMessage({id: 'label.main.privacy_policy'})}{' '}
+          {intl.formatMessage({ id: 'label.main.privacy_policy' })}{' '}
         </TextMont4Normal>
         <ScrollView>
           <TextMont4Normal style={[styles.contentText]}>
-            {intl.formatMessage({id: `lang.${locale}.terms_and_policy`})}
+            {intl.formatMessage({ id: `lang.${locale}.terms_and_policy` })}
           </TextMont4Normal>
         </ScrollView>
       </View>
@@ -51,7 +58,7 @@ export default function PrivacyAndPolicy({
       <View style={styles.bottom}>
         <View style={styles.bottomButton}>
           <CustomButton
-            title={intl.formatMessage({id: 'label.main.comfirm'})}
+            title={intl.formatMessage({ id: 'label.main.comfirm' })}
             onPress={onConfirmPressed}
           />
         </View>
@@ -66,16 +73,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingTop: 45,
+    paddingTop: Platform.OS === 'ios' ? 55 : 45,
   },
   header: {
     flexDirection: 'row',
+    alignItems: 'center',
     paddingRight: 80,
     width: '100%',
   },
   backIcon: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   logoContainer: {
     width: '100%',
@@ -83,8 +91,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 160,
-    height: 35,
+    width: 50,
+    height: 50,
   },
 
   contentContainer: {

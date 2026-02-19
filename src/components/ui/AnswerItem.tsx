@@ -7,14 +7,14 @@ import {
   ImageURISource,
   ToastAndroid,
 } from 'react-native';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Video from 'react-native-video';
 import AwesomeLoading from 'react-native-awesome-loading';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 import VideoPlayer from 'react-native-video-controls';
 
-import {TextPopp4Regular, TextPopp5Medium} from '..';
-import {BACKEND_STORAGE_URL} from '../../utils/constants';
+import { TextPopp4Regular, TextPopp5Medium } from '..';
+import { BACKEND_STORAGE_URL } from '../../utils/constants';
 import {
   CustomMusciPlayer,
   CustomDivider,
@@ -39,10 +39,10 @@ export default function AnswerItem({
 }: AIInterface): React.JSX.Element {
   const intl = useIntl();
 
-  const {userData} = useUser();
-  const {locale} = useLocale();
+  const { userData } = useUser();
+  const { locale } = useLocale();
 
-  const {setSelAbuseData, setUpdateQuestionItem, showQuestionModal} =
+  const { setSelAbuseData, setUpdateQuestionItem, showQuestionModal } =
     useQuestion();
 
   const [loading, setLoadng] = useState<boolean>(false);
@@ -131,7 +131,7 @@ export default function AnswerItem({
 
       <TextPopp4Regular style={styles.EinfoText}>
         {intl.formatMessage(
-          {id: 'label.main.posted_by'},
+          { id: 'label.main.posted_by' },
           {
             value: `${data?.user?.first_name || ''} (${
               data?.user?.school_name || ''
@@ -150,7 +150,7 @@ export default function AnswerItem({
                   'answer_sm/',
                 )}`,
               }}
-              style={[styles.Eimage, {display: loading ? 'none' : 'flex'}]}
+              style={[styles.Eimage]}
               onLoadStart={() => setLoadng(true)}
               onLoadEnd={() => setLoadng(false)}
             />
@@ -167,7 +167,7 @@ export default function AnswerItem({
             //   paused={!showControls}
             // />
             <VideoPlayer
-              source={{uri: `${BACKEND_STORAGE_URL}${data.file_path}`}}
+              source={{ uri: `${BACKEND_STORAGE_URL}${data.file_path}` }}
               paused={true}
               showOnStart={true}
               disableBack
@@ -186,10 +186,11 @@ export default function AnswerItem({
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onPress={handleTouchEnd}>
+              onPress={handleTouchEnd}
+            >
               <Image
                 source={require('../../../assets/images/video-play.png')}
-                style={{width: 50, height: 50}}
+                style={{ width: 50, height: 50 }}
               />
             </Pressable>
           )}
@@ -209,12 +210,12 @@ export default function AnswerItem({
               {voteLike ? (
                 <Image
                   source={require('../../../assets/icons/Icons/like_hover.png')}
-                  style={{width: 14, height: 14}}
+                  style={{ width: 14, height: 14 }}
                 />
               ) : (
                 <Image
                   source={require('../../../assets/icons/Icons/like.png')}
-                  style={{width: 14, height: 14}}
+                  style={{ width: 14, height: 14 }}
                 />
               )}
             </Pressable>
@@ -227,12 +228,12 @@ export default function AnswerItem({
               {voteUnlike ? (
                 <Image
                   source={require('../../../assets/icons/Icons/unlike_hover.png')}
-                  style={{width: 14, height: 14}}
+                  style={{ width: 14, height: 14 }}
                 />
               ) : (
                 <Image
                   source={require('../../../assets/icons/Icons/unlike.png')}
-                  style={{width: 14, height: 14}}
+                  style={{ width: 14, height: 14 }}
                 />
               )}
             </Pressable>
@@ -242,10 +243,11 @@ export default function AnswerItem({
           </View>
         </View>
         <Pressable
-          onPress={() => setSelAbuseData({id: data?.id, sort: 'answer'})}>
+          onPress={() => setSelAbuseData({ id: data?.id, sort: 'answer' })}
+        >
           <Image
             source={require('../../../assets/icons/Icons/abuse.png')}
-            style={{width: 32, height: 32}}
+            style={{ width: 32, height: 32 }}
           />
         </Pressable>
       </View>

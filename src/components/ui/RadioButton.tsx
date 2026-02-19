@@ -23,7 +23,7 @@ export default function CustomRadioButton ({ selected, onPress, label, keyValue 
                         width: 24,
                         borderRadius: 12,
                         borderWidth: 2,
-                        borderColor: selected ? '#00658F' : '#707070',
+                        borderColor: selected ? '#04939E' : '#707070',
                         alignItems: 'center',
                         justifyContent: 'center', 
                     }}
@@ -34,13 +34,13 @@ export default function CustomRadioButton ({ selected, onPress, label, keyValue 
                         height: 12,
                         width: 12,
                         borderRadius: 6,
-                        backgroundColor: '#00658F',
+                        backgroundColor: '#04939E',
                         }}
                     />
                     ) : null}
                 </View>
                 <Text style={{ 
-                    color: selected ? '#00658F' : '#707070', 
+                    color: selected ? '#04939E' : '#707070', 
                     textTransform: 'uppercase',
                     fontSize: 12, 
                     fontFamily: 'Montserrat-Medium', 

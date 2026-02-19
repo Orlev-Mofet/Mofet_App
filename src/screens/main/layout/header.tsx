@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import RNRestart from 'react-native-restart';
 
 import { storeStorageData } from '../../../utils/localStorage';
@@ -61,7 +68,7 @@ export default function MainHeader({
       style={[styles.container, { direction: locale === 'en' ? 'ltr' : 'rtl' }]}
     >
       <Image
-        source={require('../../../../assets/images/logo-main.png')}
+        source={require('../../../../assets/images/logoWhite.png')}
         style={styles.logo}
       />
 
@@ -131,9 +138,9 @@ export default function MainHeader({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    paddingTop: Platform.OS === 'ios' ? 45 : 20,
     flex: 1,
-    backgroundColor: '#00658F',
+    backgroundColor: '#04939E',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     alignItems: 'center',
@@ -164,8 +171,8 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   logo: {
-    width: 133,
-    height: 29,
+    width: 50,
+    height: 50,
   },
   settingContainer: {
     flex: 1,
@@ -212,6 +219,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
   },
-  imageSettingItem: {},
-  imagePolicyItem: {},
+  imageSettingItem: {
+    width: 15,
+    height: 15,
+  },
+  imagePolicyItem: {
+    width: 15,
+    height: 15,
+    objectFit: 'contain',
+  },
 });

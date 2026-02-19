@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 
   shortQuestion: {
     width: '75%',
-    color: '#00658F',
+    color: '#04939E',
     fontSize: 12,
     lineHeight: 20,
     fontWeight: '500',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   button: {
     width: 30,
     height: 30,
-    backgroundColor: '#00658F',
+    backgroundColor: '#04939E',
     borderRadius: 18,
     color: 'white',
     alignItems: 'center',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     height: 65,
-    backgroundColor: '#00658F',
+    backgroundColor: '#04939E',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

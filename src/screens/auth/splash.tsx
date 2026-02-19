@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   APP_VERSION,
@@ -19,17 +19,17 @@ import {
   SK_TOKEN,
 } from '../../utils/constants';
 
-import {getStorageData, storeStorageData} from '../../utils/localStorage';
-import {getFetchData} from '../../utils/fetchData';
-import {useLocale, TextMont4Normal, useUser} from '../../components';
+import { getStorageData, storeStorageData } from '../../utils/localStorage';
+import { getFetchData } from '../../utils/fetchData';
+import { useLocale, TextMont4Normal, useUser } from '../../components';
 
 export default function SplashScreen({
   navigation,
 }: {
   navigation: any;
 }): React.JSX.Element {
-  const {addMessages, setConstantData} = useLocale();
-  const {setUserData} = useUser();
+  const { addMessages, setConstantData } = useLocale();
+  const { setUserData } = useUser();
 
   const intl = useIntl();
   const [count, setCount] = useState(0);
@@ -43,11 +43,11 @@ export default function SplashScreen({
         if (result && result.status === 'success') {
           let newLang = {};
           for (const iterator of result.languages) {
-            newLang = {...newLang, ...iterator};
+            newLang = { ...newLang, ...iterator };
           }
           let constants = {};
           for (const iterator of result.constants) {
-            constants = {...constants, ...iterator};
+            constants = { ...constants, ...iterator };
           }
           setIsLang(true);
           addMessages(newLang);
@@ -115,11 +115,11 @@ export default function SplashScreen({
   return (
     <ImageBackground
       source={require('../../../assets/images/Splash.png')}
-      style={[styles.image]}>
+      style={[styles.image]}
+    >
       <View style={[styles.container]}>
         <View style={styles.content}>
-          <Image source={require('../../../assets/images/logo.png')} />
-          <Image source={require('../../../assets/images/logo-text.png')} />
+          <Image source={require('../../../assets/images/newLogo.png')} />
           <Progress.Bar
             progress={count / 100}
             width={157}
@@ -133,17 +133,21 @@ export default function SplashScreen({
         <View style={styles.bottom}>
           <View style={styles.bottomText}>
             <TextMont4Normal style={styles.text}>
-              {intl.formatMessage({id: 'auth.label.copyright'}, {year: year})}
+              {intl.formatMessage(
+                { id: 'auth.label.copyright' },
+                { year: year },
+              )}
             </TextMont4Normal>
             <TextMont4Normal style={styles.text}>
               {intl.formatMessage(
-                {id: 'auth.label.version'},
-                {version: APP_VERSION},
+                { id: 'auth.label.version' },
+                { version: APP_VERSION },
               )}
             </TextMont4Normal>
           </View>
         </View>
       </View>
+      <View style={styles.bg} />
     </ImageBackground>
   );
 }
@@ -154,20 +158,27 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
-  container: {
-    backgroundColor: '#015A80',
+  bg: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#04939E',
     opacity: 0.9,
+    zIndex: 0,
+  },
+  container: {
+    zIndex: 1,
     flex: 1,
   },
   content: {
-    height: '90%',
+    height: '100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 50,
   },
   progressBar: {
-    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 
   bottom: {

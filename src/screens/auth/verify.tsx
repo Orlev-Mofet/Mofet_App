@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -17,7 +17,7 @@ import {
 } from 'react-native-otp-verify';
 import messaging from '@react-native-firebase/messaging';
 
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import {
   SK_OTP_CODE,
@@ -33,8 +33,8 @@ import {
   useLocale,
 } from '../../components';
 
-import {getFetchData} from '../../utils/fetchData';
-import {getStorageData, storeStorageData} from '../../utils/localStorage';
+import { getFetchData } from '../../utils/fetchData';
+import { getStorageData, storeStorageData } from '../../utils/localStorage';
 
 export default function Verify({
   navigation,
@@ -42,8 +42,8 @@ export default function Verify({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {setUserData} = useUser();
-  const {locale} = useLocale();
+  const { setUserData } = useUser();
+  const { locale } = useLocale();
   const otpTextViewRef = useRef<OTPTextView>(null);
 
   const [counter, setCounter] = useState<string>('0:00');
@@ -61,7 +61,7 @@ export default function Verify({
 
     if (otpCode?.length !== 4) {
       ToastAndroid.show(
-        intl.formatMessage({id: `lang.${locale}.please_input_correct_otp`}),
+        intl.formatMessage({ id: `lang.${locale}.please_input_correct_otp` }),
         ToastAndroid.SHORT,
       );
       return;
@@ -80,7 +80,7 @@ export default function Verify({
         await storeStorageData(SK_TOKEN, res.token);
         await storeStorageData(
           SK_OTP_CODE,
-          JSON.stringify({otpCode: otpCode, fcmToken: fcmToken}),
+          JSON.stringify({ otpCode: otpCode, fcmToken: fcmToken }),
         );
         setUserData(res?.user);
 
@@ -191,10 +191,13 @@ export default function Verify({
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.imageContainer}>
-            <Image source={require('../../../assets/images/logo-v.png')} />
+            <Image
+              style={{ height: 100, width: 100, objectFit: 'contain' }}
+              source={require('../../../assets/images/logo2.png')}
+            />
           </View>
           <TextMont4Normal style={styles.numberText}>
-            {intl.formatMessage({id: 'auth.label.loginText'})}
+            {intl.formatMessage({ id: 'auth.label.loginText' })}
           </TextMont4Normal>
 
           <View style={styles.otpContainer}>
@@ -207,15 +210,15 @@ export default function Verify({
 
           <View style={styles.countContainer}>
             <TextMont4Normal style={styles.fontBlack}>
-              {intl.formatMessage({id: 'auth.label.receive_code_yet'})}
+              {intl.formatMessage({ id: 'auth.label.receive_code_yet' })}
             </TextMont4Normal>
             <TextMont4Normal style={styles.fontBlack}>
-              {intl.formatMessage({id: 'auth.label.wait_for'})}
+              {intl.formatMessage({ id: 'auth.label.wait_for' })}
             </TextMont4Normal>
             <TextMont4Normal style={styles.counter} onPress={() => resendOTP()}>
               {!!remainSec && counter}
               {!!!remainSec &&
-                intl.formatMessage({id: `lang.${locale}.otp_resend`})}
+                intl.formatMessage({ id: `lang.${locale}.otp_resend` })}
             </TextMont4Normal>
           </View>
 
@@ -225,11 +228,13 @@ export default function Verify({
                 otpVerified
                   ? styles.OTPStatusPanelSuccess
                   : styles.OTPStatusPanelError
-              }>
+              }
+            >
               <TextMont4Normal
-                style={otpVerified ? styles.TextSuccess : styles.TextError}>
+                style={otpVerified ? styles.TextSuccess : styles.TextError}
+              >
                 {otpVerified
-                  ? intl.formatMessage({id: 'auth.label.OTP_Verified'})
+                  ? intl.formatMessage({ id: 'auth.label.OTP_Verified' })
                   : intl.formatMessage({
                       id: 'auth.label.OTP_Invalid_or_Expired',
                     })}
@@ -241,7 +246,7 @@ export default function Verify({
         <View style={styles.bottom}>
           <View style={styles.bottomButton}>
             <CustomButton
-              title={intl.formatMessage({id: 'auth.label.Verify'})}
+              title={intl.formatMessage({ id: 'auth.label.Verify' })}
               onPress={onVerifyPressed}
               isLoading={isFetching}
             />
@@ -277,7 +282,7 @@ const styles = StyleSheet.create({
   },
 
   otpContainer: {
-    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 
   OTPTextInputStyle: {
@@ -286,7 +291,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderBottomWidth: 1,
-    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 
   countContainer: {

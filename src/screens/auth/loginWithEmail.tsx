@@ -1,6 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {I18nManager, Keyboard, Platform, Pressable, Text} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import React from 'react';
+import { I18nManager, Keyboard, Platform, Pressable } from 'react-native';
 
 import {
   Image,
@@ -9,23 +8,19 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useIntl} from 'react-intl';
-import {zodResolver} from '@hookform/resolvers/zod';
+import { useIntl } from 'react-intl';
 
 import {
   CustomButton,
-  TextMont4Normal,
   TextPopp4Regular,
   useLocale,
   useUser,
 } from '../../components';
 
-import {Controller, useForm} from 'react-hook-form';
-import Button from '../../components/ui/Button';
-import {RegisterWithEmailSchema} from '../../validationSchemas/authSchemas';
-import {storeFetchData} from '../../utils/fetchData';
-import {storeStorageData} from '../../utils/localStorage';
-import {SK_TOKEN} from '../../utils/constants';
+import { Controller, useForm } from 'react-hook-form';
+import { storeFetchData } from '../../utils/fetchData';
+import { storeStorageData } from '../../utils/localStorage';
+import { SK_TOKEN } from '../../utils/constants';
 
 type FormData = {
   email: string;
@@ -38,19 +33,19 @@ export default function LoginWithEmail({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
+  const { locale } = useLocale();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       email: '',
       password: '',
     },
   });
-  const {setUserData} = useUser();
+  const { setUserData } = useUser();
 
   const onSubmit = async (data: FormData) => {
     const res = await storeFetchData('signin', {
@@ -79,10 +74,11 @@ export default function LoginWithEmail({
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          <View style={{width: '100%'}}>
+          <View style={{ width: '100%' }}>
             <Pressable
-              style={{position: 'absolute', zIndex: 100, left: 30, top: 30}}
-              onPress={onBackPressed}>
+              style={{ position: 'absolute', zIndex: 100, left: 30, top: 30 }}
+              onPress={onBackPressed}
+            >
               <Image
                 source={require('../../../assets/images/back-icon.png')}
                 style={styles.backIcon}
@@ -90,8 +86,8 @@ export default function LoginWithEmail({
             </Pressable>
             <View style={styles.imageContainer}>
               <Image
-                style={styles.logo}
-                source={require('../../../assets/images/logo-h.png')}
+                style={{ height: 100, width: 100, objectFit: 'contain' }}
+                source={require('../../../assets/images/logo2.png')}
               />
             </View>
           </View>
@@ -103,7 +99,7 @@ export default function LoginWithEmail({
               rules={{
                 required: true,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Email"
@@ -123,7 +119,7 @@ export default function LoginWithEmail({
               rules={{
                 maxLength: 100,
               }}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Password"
@@ -142,21 +138,23 @@ export default function LoginWithEmail({
 
           <View style={styles.textContainer}>
             <TextPopp4Regular style={styles.black}>
-              {intl.formatMessage({id: 'auth.label.byContinuing'})}
+              {intl.formatMessage({ id: 'auth.label.byContinuing' })}
             </TextPopp4Regular>
             <View style={styles.textContainer2}>
               <TextPopp4Regular
                 style={styles.textUnderline}
-                onPress={termsConditionPressed}>
-                {intl.formatMessage({id: 'auth.label.Terms_condition'})}
+                onPress={termsConditionPressed}
+              >
+                {intl.formatMessage({ id: 'auth.label.Terms_condition' })}
               </TextPopp4Regular>
               <TextPopp4Regular style={styles.black}>
-                {intl.formatMessage({id: 'auth.label.and'})}
+                {intl.formatMessage({ id: 'auth.label.and' })}
               </TextPopp4Regular>
               <TextPopp4Regular
                 style={styles.textUnderline}
-                onPress={privacyPolicyPressed}>
-                {intl.formatMessage({id: 'auth.label.Privacy_policy'})}
+                onPress={privacyPolicyPressed}
+              >
+                {intl.formatMessage({ id: 'auth.label.Privacy_policy' })}
               </TextPopp4Regular>
             </View>
           </View>
@@ -256,6 +254,7 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',

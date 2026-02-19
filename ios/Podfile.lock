@@ -1979,7 +1979,7 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
-  - react-native-document-picker (9.3.1):
+  - react-native-document-picker (12.0.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2155,9 +2155,35 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-track-player (4.1.2):
+  - react-native-track-player (4.1.1):
+    - boost
+    - DoubleConversion
+    - fast_float
+    - fmt
+    - glog
+    - hermes-engine
+    - RCT-Folly
+    - RCT-Folly/Fabric
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - SocketRocket
     - SwiftAudioEx (= 1.1.0)
+    - Yoga
   - react-native-video (6.19.0):
     - boost
     - DoubleConversion
@@ -3121,7 +3147,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
+  - "react-native-document-picker (from `../node_modules/@react-native-documents/picker`)"
   - react-native-otp-verify (from `../node_modules/react-native-otp-verify`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -3285,7 +3311,7 @@ EXTERNAL SOURCES:
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-document-picker:
-    :path: "../node_modules/react-native-document-picker"
+    :path: "../node_modules/@react-native-documents/picker"
   react-native-otp-verify:
     :path: "../node_modules/react-native-otp-verify"
   react-native-restart:
@@ -3444,12 +3470,12 @@ SPEC CHECKSUMS:
   React-logger: 6ac901f5c7f7321d2be1a40b203bccc2e23411e3
   React-Mapbuffer: 9d33f0f79b6b5705d08d89d8fb9709d1ee655c81
   React-microtasksnativemodule: 1a5a9488d2a05c74ea276c2012df632d8221d169
-  react-native-document-picker: 2ed17a26528d7db3b39ca7ddf99f668077d54182
+  react-native-document-picker: 07136ef5cc3fb4a04419458616cb23be6fcd3ba1
   react-native-otp-verify: b524a7f44b691644bea08376d6a4782a2df57e09
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   react-native-safe-area-context: fea29ae0275beaa22f72d0a8be1eb0ab09c3feae
   react-native-slider: 01f8ede24c83dac924c6c86adfbb8159c5605595
-  react-native-track-player: 24ecd55d64da8a6471ba96484b67bc9cee6fc629
+  react-native-track-player: 218bcbc24968e8399ef58af1d26473a83ad34cb7
   react-native-video: d7c758820331cdbccbc4388d7533680ab2a44320
   React-NativeModulesApple: dfce21d2c4b7eab44db0af861fcb8998d0b8ad16
   React-networking: 26355121d0bf86d974dff5a3cc11f8aeb9f28a22
@@ -3502,4 +3528,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5700d23a224665d10713cd3df6b92f491cdacc25
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2

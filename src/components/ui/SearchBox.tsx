@@ -1,7 +1,7 @@
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
-import {useIntl} from 'react-intl';
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useIntl } from 'react-intl';
 
-import {useLocale} from '..';
+import { useLocale } from '..';
 
 export default function CustomSearchBox({
   value,
@@ -13,11 +13,14 @@ export default function CustomSearchBox({
   onClear: any;
 }) {
   const intl = useIntl();
-  const {locale} = useLocale();
+  const { locale } = useLocale();
 
   return (
     <View style={styles.container}>
-      <Image source={require('../../../assets/images/search.png')} />
+      <Image
+        style={styles.searchIcon}
+        source={require('../../../assets/images/search.png')}
+      />
       <TextInput
         style={styles.textInput}
         placeholder={intl.formatMessage({
@@ -28,10 +31,10 @@ export default function CustomSearchBox({
       />
       {value.length > 0 ? (
         <Text style={styles.textClear} onPress={onClear}>
-          {intl.formatMessage({id: 'label.main.clear'})}
+          {intl.formatMessage({ id: 'label.main.clear' })}
         </Text>
       ) : (
-        <View style={{width: 33}} />
+        <View style={{ width: 33 }} />
       )}
     </View>
   );
@@ -40,14 +43,19 @@ export default function CustomSearchBox({
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderColor: '#707070',
+    borderColor: 'rgba(112, 112, 112, 0.2)',
     borderRadius: 10,
     height: 50,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 5,
+    gap: 12,
+  },
+  searchIcon: {
+    width: 15,
+    height: 15,
+    objectFit: 'contain',
   },
   textInput: {
     width: '70%',
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   textClear: {
-    color: '#00658F',
+    color: '#04939E',
     fontWeight: '600',
     textDecorationLine: 'underline',
   },

@@ -8,14 +8,16 @@ import {
   StyleProp,
   PressableProps,
   ViewStyle,
+  View,
 } from 'react-native';
-import {TextMont4Normal} from '..';
+import { TextMont4Normal } from '..';
 
 type Props = {
   onPress: any;
   title: any;
   size?: string;
   icon?: string;
+  color?: 'teal' | 'blue';
   isLoading?: boolean;
   style?: StyleProp<ViewStyle>;
 };
@@ -26,25 +28,33 @@ const CustomButton = ({
   size,
   icon,
   isLoading,
+  color = 'teal',
   style = {},
 }: Props) => {
+  const colors = {
+    blue: '#004869',
+    teal: '#04939E',
+  };
+
   return (
     <Pressable
       style={[
+        { backgroundColor: colors[color] },
         size === 'small' ? [styles.buttonSM, style] : [styles.button, style],
       ]}
-      onPress={onPress}>
+      onPress={onPress}
+    >
       {isLoading && (
         <ActivityIndicator
           size="small"
           color="white"
-          style={{height: 25}}
+          style={{ height: 25 }}
           animating={true}
         />
       )}
       {!isLoading &&
         (size === 'small' ? (
-          <TextMont4Normal style={styles.textSM}>
+          <View style={styles.buttonIcon}>
             {icon === 'flight' && (
               <Image
                 source={require(`../../../assets/images/flight.png`)}
@@ -54,14 +64,16 @@ const CustomButton = ({
             {icon === 'abuse' && (
               <Image
                 source={require('../../../assets/images/abuse.png')}
-                style={{width: 17, height: 17}}
+                style={{ width: 17, height: 17 }}
               />
             )}
-            &nbsp;
-            {title}
-          </TextMont4Normal>
+            <TextMont4Normal style={styles.textSM}>
+              &nbsp;
+              {title}
+            </TextMont4Normal>
+          </View>
         ) : (
-          <TextMont4Normal style={styles.text}>
+          <View style={styles.buttonIcon}>
             {icon === 'flight' && (
               <Image
                 source={require(`../../../assets/images/flight.png`)}
@@ -71,12 +83,14 @@ const CustomButton = ({
             {icon === 'abuse' && (
               <Image
                 source={require('../../../assets/images/abuse.png')}
-                style={{width: 17, height: 17}}
+                style={{ width: 17, height: 17 }}
               />
             )}
-            &nbsp;
-            {title}
-          </TextMont4Normal>
+            <TextMont4Normal style={styles.text}>
+              &nbsp;
+              {title}
+            </TextMont4Normal>
+          </View>
         ))}
     </Pressable>
   );
@@ -87,14 +101,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    backgroundColor: '#1485A3',
     height: 50,
   },
+  buttonIcon: { flexDirection: 'row', gap: 4, alignItems: 'center' },
   buttonSM: {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    backgroundColor: '#1485A3',
     height: 40,
   },
   text: {

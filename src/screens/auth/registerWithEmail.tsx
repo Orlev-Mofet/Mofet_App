@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   I18nManager,
   Keyboard,
@@ -16,8 +16,8 @@ import {
   View,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useIntl} from 'react-intl';
-import {zodResolver} from '@hookform/resolvers/zod';
+import { useIntl } from 'react-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   CustomButton,
@@ -27,12 +27,12 @@ import {
   useUser,
 } from '../../components';
 
-import {Controller, useForm} from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import Button from '../../components/ui/Button';
-import {RegisterWithEmailSchema} from '../../validationSchemas/authSchemas';
-import {storeFetchData} from '../../utils/fetchData';
-import {storeStorageData} from '../../utils/localStorage';
-import {SK_TOKEN} from '../../utils/constants';
+import { RegisterWithEmailSchema } from '../../validationSchemas/authSchemas';
+import { storeFetchData } from '../../utils/fetchData';
+import { storeStorageData } from '../../utils/localStorage';
+import { SK_TOKEN } from '../../utils/constants';
 
 type FormData = {
   email: string;
@@ -46,13 +46,13 @@ export default function RegisterWithEmail({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
-  const {setUserData} = useUser();
+  const { locale } = useLocale();
+  const { setUserData } = useUser();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       email: '',
@@ -95,10 +95,11 @@ export default function RegisterWithEmail({
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          <View style={{width: '100%'}}>
+          <View style={{ width: '100%' }}>
             <Pressable
-              style={{position: 'absolute', zIndex: 100, left: 30, top: 30}}
-              onPress={onBackPressed}>
+              style={{ position: 'absolute', zIndex: 100, left: 30, top: 30 }}
+              onPress={onBackPressed}
+            >
               <Image
                 source={require('../../../assets/images/back-icon.png')}
                 style={styles.backIcon}
@@ -106,8 +107,8 @@ export default function RegisterWithEmail({
             </Pressable>
             <View style={styles.imageContainer}>
               <Image
-                style={styles.logo}
-                source={require('../../../assets/images/logo-h.png')}
+                style={{ height: 100, width: 100, objectFit: 'contain' }}
+                source={require('../../../assets/images/logo2.png')}
               />
             </View>
           </View>
@@ -120,7 +121,7 @@ export default function RegisterWithEmail({
           <View style={styles.formContainer}>
             <Controller
               control={control}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Email"
@@ -137,7 +138,7 @@ export default function RegisterWithEmail({
 
             <Controller
               control={control}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Password"
@@ -154,7 +155,7 @@ export default function RegisterWithEmail({
             </TextPopp4Regular>
             <Controller
               control={control}
-              render={({field: {onChange, onBlur, value}}) => (
+              render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Confirm Password"
@@ -177,28 +178,31 @@ export default function RegisterWithEmail({
               </TextPopp4Regular>
               <TextPopp4Regular
                 style={styles.textUnderline}
-                onPress={() => navigation.navigate('loginWithEmail')}>
+                onPress={() => navigation.navigate('loginWithEmail')}
+              >
                 Sign in
               </TextPopp4Regular>
             </View>
             <View style={styles.textContainer}>
               <TextPopp4Regular style={styles.black}>
-                {intl.formatMessage({id: 'auth.label.byContinuing'})}
+                {intl.formatMessage({ id: 'auth.label.byContinuing' })}
               </TextPopp4Regular>
               <View style={styles.textContainer2}>
                 <TextPopp4Regular
                   style={styles.textUnderline}
-                  onPress={termsConditionPressed}>
-                  {intl.formatMessage({id: 'auth.label.Terms_condition'})}
+                  onPress={termsConditionPressed}
+                >
+                  {intl.formatMessage({ id: 'auth.label.Terms_condition' })}
                 </TextPopp4Regular>
                 <TextPopp4Regular style={styles.black}>
-                  {intl.formatMessage({id: 'auth.label.and'})}
+                  {intl.formatMessage({ id: 'auth.label.and' })}
                 </TextPopp4Regular>
                 <TextPopp4Regular
                   style={styles.textUnderline}
                   type
-                  onPress={privacyPolicyPressed}>
-                  {intl.formatMessage({id: 'auth.label.Privacy_policy'})}
+                  onPress={privacyPolicyPressed}
+                >
+                  {intl.formatMessage({ id: 'auth.label.Privacy_policy' })}
                 </TextPopp4Regular>
               </View>
             </View>

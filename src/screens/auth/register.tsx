@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {I18nManager, Platform, Text} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { I18nManager, Platform, Text } from 'react-native';
 import {
   Image,
   StyleSheet,
@@ -8,11 +8,11 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
-import {useIntl} from 'react-intl';
-import parsePhoneNumber, {CountryCode} from 'libphonenumber-js';
+import { useIntl } from 'react-intl';
+import parsePhoneNumber, { CountryCode } from 'libphonenumber-js';
 
 import CountryFlag from 'react-native-country-flag';
-import {CountryPicker} from 'react-native-country-codes-picker';
+import { CountryPicker } from 'react-native-country-codes-picker';
 
 import {
   SK_AGREE_POLICY,
@@ -28,10 +28,10 @@ import {
   TextPopp4Regular,
   useLocale,
 } from '../../components';
-import {storeFetchData, getFetchData} from '../../utils/fetchData';
-import {storeStorageData, getStorageData} from '../../utils/localStorage';
+import { storeFetchData, getFetchData } from '../../utils/fetchData';
+import { storeStorageData, getStorageData } from '../../utils/localStorage';
 
-import {getHash} from 'react-native-otp-verify';
+import { getHash } from 'react-native-otp-verify';
 import Toast from 'react-native-toast-message';
 
 export default function Register({
@@ -40,7 +40,7 @@ export default function Register({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
+  const { locale } = useLocale();
 
   const [show, setShow] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -96,7 +96,7 @@ export default function Register({
 
     if (!phoneInfo || !phoneInfo.isValid()) {
       ToastAndroid.show(
-        intl.formatMessage({id: `lang.${locale}.phone_number_is_invalid`}),
+        intl.formatMessage({ id: `lang.${locale}.phone_number_is_invalid` }),
         ToastAndroid.SHORT,
       );
       return;
@@ -153,10 +153,13 @@ export default function Register({
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.imageContainer}>
-          <Image source={require('../../../assets/images/logo-v.png')} />
+          <Image
+            style={{ height: 100, width: 100, objectFit: 'contain' }}
+            source={require('../../../assets/images/logo2.png')}
+          />
         </View>
         <TextMont4Normal style={styles.numberText}>
-          {intl.formatMessage({id: 'auth.label.EnterMobileNumber'})}
+          {intl.formatMessage({ id: 'auth.label.EnterMobileNumber' })}
         </TextMont4Normal>
         <View style={styles.verifyContainer}>
           <View>
@@ -165,7 +168,8 @@ export default function Register({
 
           <TouchableOpacity
             onPress={() => setShow(true)}
-            style={styles.countryCodeContainer}>
+            style={styles.countryCodeContainer}
+          >
             <TextMont4Normal style={styles.countryCode}>
               {phoneCode}
             </TextMont4Normal>
@@ -201,7 +205,8 @@ export default function Register({
           />
         </View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('registerWithEmail')}>
+          onPress={() => navigation.navigate('registerWithEmail')}
+        >
           <TextPopp4Regular style={styles.textUnderline}>
             Sign in with E-mail
           </TextPopp4Regular>
@@ -209,21 +214,23 @@ export default function Register({
 
         <View style={styles.textContainer}>
           <TextPopp4Regular style={styles.black}>
-            {intl.formatMessage({id: 'auth.label.byContinuing'})}
+            {intl.formatMessage({ id: 'auth.label.byContinuing' })}
           </TextPopp4Regular>
           <View style={styles.textContainer2}>
             <TextPopp4Regular
               style={styles.textUnderline}
-              onPress={termsConditionPressed}>
-              {intl.formatMessage({id: 'auth.label.Terms_condition'})}
+              onPress={termsConditionPressed}
+            >
+              {intl.formatMessage({ id: 'auth.label.Terms_condition' })}
             </TextPopp4Regular>
             <TextPopp4Regular style={styles.black}>
-              {intl.formatMessage({id: 'auth.label.and'})}
+              {intl.formatMessage({ id: 'auth.label.and' })}
             </TextPopp4Regular>
             <TextPopp4Regular
               style={styles.textUnderline}
-              onPress={privacyPolicyPressed}>
-              {intl.formatMessage({id: 'auth.label.Privacy_policy'})}
+              onPress={privacyPolicyPressed}
+            >
+              {intl.formatMessage({ id: 'auth.label.Privacy_policy' })}
             </TextPopp4Regular>
           </View>
         </View>
@@ -231,7 +238,7 @@ export default function Register({
       <View style={styles.bottom}>
         <View style={styles.bottomButton}>
           <CustomButton
-            title={intl.formatMessage({id: 'auth.label.Register'})}
+            title={intl.formatMessage({ id: 'auth.label.Register' })}
             onPress={onPressedRegister}
             isLoading={isFetching}
           />
@@ -314,6 +321,7 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
