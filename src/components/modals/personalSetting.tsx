@@ -72,6 +72,8 @@ export default function PersonalSettingModal({
   }, []);
 
   const onSwitch = () => {
+    console.log(+!approvedNoti);
+
     setApprovedNoti(+!approvedNoti);
   };
 
@@ -142,7 +144,7 @@ export default function PersonalSettingModal({
 
   return (
     <Modal isVisible={isModalVisible} backdropColor="rgba(1, 90, 128, 0.9)">
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.top}>
             <Pressable onPress={toggleModal}>
@@ -320,7 +322,7 @@ export default function PersonalSettingModal({
               </View>
 
               <View style={styles.row}>
-                <TextMont4Normal style={styles.labelText}>
+                <TextMont4Normal style={[styles.labelText]}>
                   {intl.formatMessage({
                     id: `lang.${locale}.field_of_interest`,
                   })}
@@ -510,7 +512,7 @@ const styles = StyleSheet.create({
     color: 'rgba(1, 90, 128, 0.9)',
     fontSize: 12,
     textTransform: 'uppercase',
-    width: '40%',
+    width: '38%',
     textAlign: 'left',
   },
   textInput: {
@@ -551,13 +553,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   switch: {
-    transform: [{ scaleX: I18nManager.isRTL ? 1 : -1 }],
+    transform: [{ rotate: I18nManager.isRTL ? '180deg' : '0deg' }],
   },
   saveButtonContainer: {
     width: 115,
     justifyContent: 'center',
   },
-
   bottom: {
     marginVertical: 10,
   },

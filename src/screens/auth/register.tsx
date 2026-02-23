@@ -177,7 +177,7 @@ export default function Register({
 
           <CountryPicker
             show={show}
-            lang={'en'}
+            lang={locale}
             pickerButtonOnPress={(item: any) => {
               setPhoneCode(item.dial_code);
               setRegionCode(item.code);
@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
     borderColor: '#707070',
     borderWidth: 1,
     paddingLeft: 15,
+    paddingRight: 15,
     gap: 0,
   },
   numberText: {
@@ -310,8 +311,8 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   chevron: {
-    marginRight: I18nManager.isRTL ? 0 : 10,
-    marginVertical: I18nManager.isRTL ? 10 : 0,
+    marginRight: 10,
+    marginLeft: 10,
   },
   black: {
     color: '#000000',

@@ -125,6 +125,8 @@ export default function RegisterWithEmail({
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Email"
+                  autoCapitalize="none"
+                  placeholderTextColor="#6d6d6d"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -142,6 +144,7 @@ export default function RegisterWithEmail({
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Password"
+                  placeholderTextColor="#6d6d6d"
                   secureTextEntry
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -158,6 +161,7 @@ export default function RegisterWithEmail({
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   style={styles.textInputNormal}
+                  placeholderTextColor="#6d6d6d"
                   placeholder="Confirm Password"
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -234,8 +238,8 @@ const styles = StyleSheet.create({
     height: 35,
   },
   backIcon: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   imageContainer: {
     paddingTop: 30,

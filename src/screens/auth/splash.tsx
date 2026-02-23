@@ -17,6 +17,7 @@ import {
   SK_OTP_CODE,
   SK_PHONE_INFO,
   SK_TOKEN,
+  SK_USER_DATA,
 } from '../../utils/constants';
 
 import { getStorageData, storeStorageData } from '../../utils/localStorage';
@@ -40,6 +41,7 @@ export default function SplashScreen({
     const run = async () => {
       try {
         const result = await getFetchData(`language`);
+
         if (result && result.status === 'success') {
           let newLang = {};
           for (const iterator of result.languages) {
@@ -89,6 +91,16 @@ export default function SplashScreen({
     const navigationPage = async () => {
       try {
         const agree_policy = await getStorageData(SK_AGREE_POLICY);
+        const userData = await getStorageData(SK_USER_DATA);
+
+        if (userData) {
+          setUserData(JSON.parse(userData));
+
+          navigation.navigate('main');
+
+          return;
+        }
+
         if (Number(agree_policy)) {
           navigation.navigate('register');
         } else {

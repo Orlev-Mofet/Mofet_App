@@ -53,6 +53,8 @@ export default function LoginWithEmail({
       password: data.password,
     });
     if (res.status === 'success') {
+      console.log(res?.token, 'TOKEN');
+      
       await storeStorageData(SK_TOKEN, res?.token);
       setUserData(res?.user);
       navigation.navigate('main');
@@ -103,6 +105,9 @@ export default function LoginWithEmail({
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Email"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  placeholderTextColor="#6d6d6d"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
@@ -123,6 +128,7 @@ export default function LoginWithEmail({
                 <TextInput
                   style={styles.textInputNormal}
                   placeholder="Password"
+                  placeholderTextColor="#6d6d6d"
                   secureTextEntry
                   onBlur={onBlur}
                   onChangeText={onChange}
@@ -239,8 +245,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   backIcon: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   error: {
     color: '#f44444',

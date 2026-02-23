@@ -1,5 +1,4 @@
-import {useState} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
   TextPopp4Regular,
   QuestionItem,
@@ -7,20 +6,17 @@ import {
   useLocale,
   useQuestion,
 } from '..';
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
 interface LIInterface {
   data: any;
   updateQuestionItem: (item: any) => void;
 }
 
-export default function ListItem({
-  data,
-  updateQuestionItem,
-}: LIInterface): React.JSX.Element {
+export default function ListItem({ data }: LIInterface): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
-  const {openQuestion, setOpenQuestionId} = useQuestion();
+  const { locale } = useLocale();
+  const { openQuestion, setOpenQuestionId } = useQuestion();
 
   return (
     <View>
@@ -29,16 +25,18 @@ export default function ListItem({
           <TextPopp4Regular
             style={styles.shortQuestion}
             numberOfLines={2}
-            ellipsizeMode="tail">
+            ellipsizeMode="tail"
+          >
             <Text style={styles.Qchar}>
               {' '}
-              {intl.formatMessage({id: `lang.${locale}.prefix_q`})} :{' '}
+              {intl.formatMessage({ id: `lang.${locale}.prefix_q` })} :{' '}
             </Text>
             {data.question}
           </TextPopp4Regular>
           <Pressable
             style={styles.button}
-            onPress={() => setOpenQuestionId(data?.id)}>
+            onPress={() => setOpenQuestionId(data?.id)}
+          >
             <Image
               source={require('../../../assets/images/plus.png')}
               style={styles.plusImage}
@@ -52,16 +50,18 @@ export default function ListItem({
             <TextPopp4Regular
               style={styles.EheaderText}
               numberOfLines={2}
-              ellipsizeMode="tail">
+              ellipsizeMode="tail"
+            >
               <Text style={styles.Qchar}>
                 {' '}
-                {intl.formatMessage({id: `lang.${locale}.prefix_q`})} :{' '}
+                {intl.formatMessage({ id: `lang.${locale}.prefix_q` })} :{' '}
               </Text>
               {data.question}
             </TextPopp4Regular>
             <Pressable
               style={styles.button}
-              onPress={() => setOpenQuestionId(0)}>
+              onPress={() => setOpenQuestionId(0)}
+            >
               <Image
                 source={require('../../../assets/images/minus.png')}
                 style={styles.plusImage}

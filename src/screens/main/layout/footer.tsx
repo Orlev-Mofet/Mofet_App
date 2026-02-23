@@ -1,6 +1,5 @@
-import {useState} from 'react';
-import {StyleSheet, View, Modal, Text, Button} from 'react-native';
-import {useIntl} from 'react-intl';
+import { StyleSheet, View } from 'react-native';
+import { useIntl } from 'react-intl';
 
 import {
   CustomButton,
@@ -8,28 +7,36 @@ import {
   useLocale,
   useQuestion,
 } from '../../../components';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MainFooter(): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
-  const {selWall, setShowQuestionModalVisible, openQuestion} = useQuestion();
+  const insets = useSafeAreaInsets();
+  const { locale } = useLocale();
+  const { selWall, setShowQuestionModalVisible, openQuestion } = useQuestion();
 
   const toggleModal = () => {
     setShowQuestionModalVisible(true);
   };
 
   return (
-    <View style={styles.bottom}>
-      <View style={styles.bottomButton}>
-        {!openQuestion &&
-          (selWall === 'Mathematics' || selWall === 'Physics') && (
-            <CustomButton
-              title={intl.formatMessage({id: `lang.${locale}.ask_question?`})}
-              onPress={toggleModal}
-            />
-          )}
-      </View>
-
+    <View style={{ marginBottom: insets.bottom }}>
+      {!openQuestion &&
+        (selWall === 'Mathematics' || selWall === 'Physics') && (
+          <View style={[styles.bottom]}>
+            <View style={styles.bottomButton}>
+              {!openQuestion &&
+                (selWall === 'Mathematics' || selWall === 'Physics') && (
+                  <CustomButton
+                    title={intl.formatMessage({
+                      id: `lang.${locale}.ask_question?`,
+                    })}
+                    onPress={toggleModal}
+                  />
+                )}
+            </View>
+          </View>
+        )}
       <QuestionModal />
     </View>
   );
@@ -40,11 +47,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     gap: 10,
-    marginBottom: 30,
+    paddingTop: 10,
+    marginBottom: 10,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
   },
   bottomButton: {
-    width: '80%',
+    width: '90%',
   },
 });

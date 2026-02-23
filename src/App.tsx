@@ -7,7 +7,7 @@
 
 import React, { useEffect } from 'react';
 
-import { I18nManager } from 'react-native';
+import { I18nManager, StatusBar } from 'react-native';
 import { IntlProvider } from 'react-intl';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -49,18 +49,20 @@ function App(): React.JSX.Element {
   const { locale, direction, messages } = useLocale();
 
   useEffect(() => {
-    if (direction === 'rtl' && !I18nManager.isRTL) {
+    console.log(locale, I18nManager.isRTL, 'I18nManager.isRTL');
+
+    if (locale === 'he' || locale === 'ar') {
       I18nManager.allowRTL(true);
       I18nManager.forceRTL(true);
-    }
-
-    if (direction === 'ltr' && I18nManager.isRTL) {
+    } else {
       I18nManager.forceRTL(false);
+      I18nManager.allowRTL(false);
     }
-  }, [direction]);
+  }, [locale]);
 
   return (
     <IntlProvider locale={locale} messages={messages}>
+      <StatusBar translucent backgroundColor="transparent" />
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{

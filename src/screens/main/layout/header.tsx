@@ -13,12 +13,15 @@ import { storeStorageData } from '../../../utils/localStorage';
 import { SK_RESTART_TIME } from '../../../utils/constants';
 import { useLocale, useUser, PersonalSettingModal } from '../../../components';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MainHeader({
   navigation,
 }: {
   navigation: any;
 }): React.JSX.Element {
+  const insets = useSafeAreaInsets();
+
   const languages = ['English', 'עִברִית', 'العربية'];
   const langKeys = ['en', 'he', 'ar'];
 
@@ -65,7 +68,15 @@ export default function MainHeader({
 
   return (
     <View
-      style={[styles.container, { direction: locale === 'en' ? 'ltr' : 'rtl' }]}
+      style={[
+        styles.container,
+        { direction: locale === 'en' ? 'ltr' : 'rtl' },
+        {
+          minHeight: insets.top + insets.top,
+          paddingTop: insets.top,
+          paddingBottom: 10,
+        },
+      ]}
     >
       <Image
         source={require('../../../../assets/images/logoWhite.png')}
@@ -138,8 +149,8 @@ export default function MainHeader({
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'ios' ? 45 : 20,
-    flex: 1,
+    // paddingTop: Platform.OS === 'ios' ? 45 : 20,
+    // flex: 1,
     backgroundColor: '#04939E',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,

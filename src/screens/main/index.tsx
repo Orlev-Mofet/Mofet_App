@@ -1,15 +1,6 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  ToastAndroid,
-  Text,
-  SafeAreaView,
-  Platform,
-  Alert,
-} from 'react-native';
-import {useIntl} from 'react-intl';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { useIntl } from 'react-intl';
 import messaging from '@react-native-firebase/messaging';
 
 import MainHeader from './layout/header';
@@ -28,13 +19,13 @@ import {
   CommonObject,
 } from '../../components';
 
-import {getFetchData} from '../../utils/fetchData';
+import { getFetchData } from '../../utils/fetchData';
 import {
   ST_SUCCESS,
   MP_SEARCH_TEXT,
   MP_SELECTED_WALL,
 } from '../../utils/constants';
-import {storeStorageData, getStorageData} from '../../utils/localStorage';
+import { storeStorageData, getStorageData } from '../../utils/localStorage';
 import Toast from 'react-native-toast-message';
 import RemoveAccountModal from '../../components/modals/removeAccount';
 
@@ -44,7 +35,8 @@ export default function MainPage({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
+
+  const { locale } = useLocale();
   const {
     questions,
     selWall,
@@ -53,7 +45,7 @@ export default function MainPage({
     setSelWallText,
     setIsFetchingFlag,
   } = useQuestion();
-  const {userData} = useUser();
+  const { userData } = useUser();
   const flatListRef = useRef<FlatList<any>>(null);
   const wallRef = useRef<any>({
     selWall: selWall,
@@ -70,7 +62,7 @@ export default function MainPage({
     setNextPageUrl('start');
     setPage(1);
     if (flatListRef && flatListRef.current) {
-      flatListRef.current.scrollToOffset({animated: true, offset: 0});
+      flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
     }
   };
 
@@ -128,9 +120,10 @@ export default function MainPage({
   const updateQuestionItem = (question: any) => {};
 
   const ItemSeparator = () => (
-    <View style={{height: 10, backgroundColor: 'transparent'}} />
+    <View style={{ height: 10, backgroundColor: 'transparent' }} />
   );
-  const renderItem = ({item}: {item: any}) => (
+
+  const renderItem = ({ item }: { item: any }) => (
     <ListItem
       data={item}
       key={item.id}
@@ -387,7 +380,9 @@ export default function MainPage({
         });
       } else if (remoteMessage?.notification?.title === 'abuse_answer') {
         Toast.show({
-          text1: intl.formatMessage({id: `lang.${locale}.your_answer_abused`}),
+          text1: intl.formatMessage({
+            id: `lang.${locale}.your_answer_abused`,
+          }),
         });
         // ToastAndroid.show(
         //   intl.formatMessage({id: `lang.${locale}.your_answer_abused`}),
@@ -410,15 +405,18 @@ export default function MainPage({
   }, []);
 
   useEffect(() => {
-    wallRef.current = {selWall: selWall, questions: questions, locale: locale};
+    wallRef.current = {
+      selWall: selWall,
+      questions: questions,
+      locale: locale,
+    };
   }, [questions, selWall]);
 
   return (
     <View
-      style={[styles.container, {direction: locale === 'en' ? 'ltr' : 'rtl'}]}>
-      <View style={styles.headerContainer}>
-        <MainHeader navigation={navigation} />
-      </View>
+      style={[styles.container, { direction: locale === 'en' ? 'ltr' : 'rtl' }]}
+    >
+      <MainHeader navigation={navigation} />
       <View>
         <SelectWall
           selectedWall={selWall}
@@ -430,7 +428,7 @@ export default function MainPage({
       <View style={styles.content}>
         <View>
           <TextMont4Normal style={[styles.topText]}>
-            {intl.formatMessage({id: `lang.${locale}.questions_answers`})}
+            {intl.formatMessage({ id: `lang.${locale}.questions_answers` })}
           </TextMont4Normal>
           <CustomSearchBox
             value={searchText}
@@ -446,10 +444,11 @@ export default function MainPage({
             ItemSeparatorComponent={ItemSeparator}
             onEndReached={loadMoreData}
             onEndReachedThreshold={0.1}
+            showsVerticalScrollIndicator={false}
             ref={flatListRef}
             ListEmptyComponent={
               <View>
-                <Text style={{textAlign: 'center', marginTop: 10}}>
+                <Text style={{ textAlign: 'center', marginTop: 10 }}>
                   There are no search results
                 </Text>
               </View>
@@ -474,10 +473,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  headerContainer: {
-    height: Platform.OS === 'ios' ? 115 : 80,
-  },
-
   content: {
     flex: 1,
     paddingHorizontal: 20,

@@ -44,54 +44,52 @@ const CustomButton = ({
       ]}
       onPress={onPress}
     >
-      {isLoading && (
+      {isLoading ? (
         <ActivityIndicator
           size="small"
           color="white"
           style={{ height: 25 }}
           animating={true}
         />
+      ) : size === 'small' ? (
+        <View style={styles.buttonIcon}>
+          {icon === 'flight' && (
+            <Image
+              source={require(`../../../assets/images/flight.png`)}
+              style={styles.iconSize}
+            />
+          )}
+          {icon === 'abuse' && (
+            <Image
+              source={require('../../../assets/images/abuse.png')}
+              style={{ width: 17, height: 17 }}
+            />
+          )}
+          <TextMont4Normal style={styles.textSM}>
+            &nbsp;
+            {title}
+          </TextMont4Normal>
+        </View>
+      ) : (
+        <View style={styles.buttonIcon}>
+          {icon === 'flight' && (
+            <Image
+              source={require(`../../../assets/images/flight.png`)}
+              style={styles.iconSize}
+            />
+          )}
+          {icon === 'abuse' && (
+            <Image
+              source={require('../../../assets/images/abuse.png')}
+              style={{ width: 17, height: 17 }}
+            />
+          )}
+          <TextMont4Normal style={styles.text}>
+            &nbsp;
+            {title}
+          </TextMont4Normal>
+        </View>
       )}
-      {!isLoading &&
-        (size === 'small' ? (
-          <View style={styles.buttonIcon}>
-            {icon === 'flight' && (
-              <Image
-                source={require(`../../../assets/images/flight.png`)}
-                style={styles.iconSize}
-              />
-            )}
-            {icon === 'abuse' && (
-              <Image
-                source={require('../../../assets/images/abuse.png')}
-                style={{ width: 17, height: 17 }}
-              />
-            )}
-            <TextMont4Normal style={styles.textSM}>
-              &nbsp;
-              {title}
-            </TextMont4Normal>
-          </View>
-        ) : (
-          <View style={styles.buttonIcon}>
-            {icon === 'flight' && (
-              <Image
-                source={require(`../../../assets/images/flight.png`)}
-                style={styles.iconSize}
-              />
-            )}
-            {icon === 'abuse' && (
-              <Image
-                source={require('../../../assets/images/abuse.png')}
-                style={{ width: 17, height: 17 }}
-              />
-            )}
-            <TextMont4Normal style={styles.text}>
-              &nbsp;
-              {title}
-            </TextMont4Normal>
-          </View>
-        ))}
     </Pressable>
   );
 };
