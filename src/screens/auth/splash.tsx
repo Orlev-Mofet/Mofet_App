@@ -23,12 +23,14 @@ import {
 import { getStorageData, storeStorageData } from '../../utils/localStorage';
 import { getFetchData } from '../../utils/fetchData';
 import { useLocale, TextMont4Normal, useUser } from '../../components';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SplashScreen({
   navigation,
 }: {
   navigation: any;
 }): React.JSX.Element {
+  const inset = useSafeAreaInsets();
   const { addMessages, setConstantData } = useLocale();
   const { setUserData } = useUser();
 
@@ -142,7 +144,14 @@ export default function SplashScreen({
           />
         </View>
 
-        <View style={styles.bottom}>
+        <View
+          style={[
+            styles.bottom,
+            {
+              marginBottom: inset.bottom + 5,
+            },
+          ]}
+        >
           <View style={styles.bottomText}>
             <TextMont4Normal style={styles.text}>
               {intl.formatMessage(
@@ -197,7 +206,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 20,
-    marginBottom: 18,
   },
   bottomText: {},
   text: {

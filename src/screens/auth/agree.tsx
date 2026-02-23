@@ -17,12 +17,14 @@ import {
   TextMont4Normal,
 } from '../../components';
 import { storeStorageData } from '../../utils/localStorage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Agree({
   navigation,
 }: {
   navigation: any;
 }): React.JSX.Element {
+  const inset = useSafeAreaInsets();
   const intl = useIntl();
   const [isChecked, setIsChecked] = useState(false);
 
@@ -51,7 +53,14 @@ export default function Agree({
           {/* <Image source={require('../../../assets/images/logo-text.png')} /> */}
         </View>
         <View style={styles.flex} />
-        <View style={styles.bottom}>
+        <View
+          style={[
+            styles.bottom,
+            {
+              marginBottom: inset.bottom + 5,
+            },
+          ]}
+        >
           <View style={styles.checkboxLine}>
             <CustomCheckBox
               onChange={handleCheckBoxClick}
@@ -69,7 +78,7 @@ export default function Agree({
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton
-            color='blue'
+              color="blue"
               title={intl.formatMessage({ id: 'auth.label.Agree' })}
               onPress={onAgree}
             />
@@ -77,7 +86,7 @@ export default function Agree({
           {/* <View style={styles.bottomLine}></View> */}
         </View>
       </View>
-      <View style={styles.bg}/>
+      <View style={styles.bg} />
     </ImageBackground>
   );
 }
@@ -89,12 +98,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bg: {
-    position:'absolute',
-    width:'100%',
+    position: 'absolute',
+    width: '100%',
     height: '100%',
     backgroundColor: '#04939E',
     opacity: 0.9,
-    zIndex: 0
+    zIndex: 0,
   },
   container: {
     zIndex: 1,
@@ -117,7 +126,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 20,
-    marginBottom: 35,
   },
   buttonContainer: {
     width: '80%',
