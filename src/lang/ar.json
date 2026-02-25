@@ -24,6 +24,7 @@
 
   "label.setting.personal_setting": "الإعداد الشخصي",
   "label.setting.save_settings": "حفظ الإعدادات",
+  "label.setting.logout": "تسجيل الخروج",
   "label.setting.contact_us_by_email": "الاتصال بنا عن طريق البريد الإلكتروني: {mail}",
   "label.setting.developed_by": "طورت بواسطة: {name}",
 

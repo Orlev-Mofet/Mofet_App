@@ -16,11 +16,17 @@ import SelectDropdown from 'react-native-select-dropdown';
 
 import { useUser, useLocale, CustomButton, TextMont4Normal } from '..';
 import { updateFetchData } from '../../utils/fetchData';
-import { ST_SUCCESS, FIELDS, APP_VERSION } from '../../utils/constants';
+import {
+  ST_SUCCESS,
+  FIELDS,
+  APP_VERSION,
+  SK_TOKEN,
+} from '../../utils/constants';
 import { CustomRadioButton } from '..';
 
 import { useIntl } from 'react-intl';
-
+import { removeStorageData } from '../../utils/localStorage';
+import { useNavigation } from '@react-navigation/native';
 interface PSInterface {
   isModalVisible: boolean;
   toggleModal: () => void;
@@ -34,6 +40,7 @@ export default function PersonalSettingModal({
   const { setUserData, userData, setShowContactUs, setRemoveConfirmation } =
     useUser();
   const { constant, messages, locale } = useLocale();
+  const navigation = useNavigation();
 
   const [years, setYears] = useState<number[]>([]);
   const grades = messages['grade'] || [];
@@ -140,6 +147,13 @@ export default function PersonalSettingModal({
     setTimeout(() => {
       setRemoveConfirmation(true);
     }, 1000);
+  };
+
+  const onLogout = () => {
+    setUserData({});
+    removeStorageData(SK_TOKEN);
+    toggleModal();
+    navigation.navigate('register');
   };
 
   return (
@@ -378,6 +392,29 @@ export default function PersonalSettingModal({
                   style={styles.switch}
                 />
               </View>
+
+              <View style={styles.saveButtonContainer}>
+                <CustomButton
+                  title={intl.formatMessage({
+                    id: 'label.setting.save_settings',
+                  })}
+                  onPress={onSaveSettingPressed}
+                  size="small"
+                  isLoading={isFetching}
+                />
+              </View>
+              <View style={styles.saveButtonContainer}>
+                <CustomButton
+                  color="blue"
+                  title={intl.formatMessage({
+                    id: 'label.setting.logout',
+                  })}
+                  onPress={onLogout}
+                  size="small"
+                  isLoading={isFetching}
+                />
+              </View>
+              <View style={styles.divider} />
               <View style={styles.saveButtonContainer}>
                 <CustomButton
                   style={{ backgroundColor: 'red' }}
@@ -386,17 +423,6 @@ export default function PersonalSettingModal({
                   // })}
                   title="Remove Account"
                   onPress={handleRemoveAccountConfirmation}
-                  size="small"
-                  isLoading={isFetching}
-                />
-              </View>
-
-              <View style={styles.saveButtonContainer}>
-                <CustomButton
-                  title={intl.formatMessage({
-                    id: 'label.setting.save_settings',
-                  })}
-                  onPress={onSaveSettingPressed}
                   size="small"
                   isLoading={isFetching}
                 />
@@ -435,6 +461,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 35,
   },
+  divider: {
+    marginBottom: 10,
+    width: '100%',
+    height: 1,
+    marginTop: 10,
+    backgroundColor: 'rgba(112, 112, 112, 0.2)',
+  },
   top: {
     justifyContent: 'flex-end',
     display: 'flex',
@@ -443,6 +476,7 @@ const styles = StyleSheet.create({
   modalClose: {
     width: 35,
     height: 35,
+
     marginBottom: 10,
   },
 
@@ -556,7 +590,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: I18nManager.isRTL ? '180deg' : '0deg' }],
   },
   saveButtonContainer: {
-    width: 115,
+    width: '100%',
     justifyContent: 'center',
   },
   bottom: {

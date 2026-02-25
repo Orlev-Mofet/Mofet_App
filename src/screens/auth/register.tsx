@@ -72,6 +72,8 @@ export default function Register({
     getHash()
       .then((h: string[]) => {
         if (h.length > 0) {
+          console.log(h[0], 'HASH');
+
           setHash(h[0]);
         }
       })
@@ -105,7 +107,6 @@ export default function Register({
 
     try {
       const res = await storeFetchData('register', data);
-      console.log(res, 'res');
 
       if (res) {
         // save to local storage
@@ -122,6 +123,7 @@ export default function Register({
         const res2 = await getFetchData(
           `sendOTP?phone_number=${phoneCode}${phoneNumber}&hash=${hash}`,
         );
+
         if (!res2 || (res2 && res2.status === ST_ERROR)) {
           ToastAndroid.show(
             intl.formatMessage({

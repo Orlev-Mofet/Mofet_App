@@ -24,6 +24,7 @@
 
   "label.setting.personal_setting": "הגדרה אישית",
   "label.setting.save_settings": "שמור הגדרה",
+  "label.setting.logout": "התנתקות",
   "label.setting.contact_us_by_email": "צרו קשר במייל: {mail}",
   "label.setting.developed_by": " פותח על ידי: {name}",
 

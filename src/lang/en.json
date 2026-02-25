@@ -24,6 +24,7 @@
 
   "label.setting.personal_setting": "Personal Setting",
   "label.setting.save_settings": "Save Setting",
+  "label.setting.logout": "Logout",
   "label.setting.contact_us_by_email": "Contact us by email: {mail}",
   "label.setting.developed_by": "Developed by: {name}",
 
