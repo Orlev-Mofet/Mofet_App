@@ -10,6 +10,7 @@ import {
   I18nManager,
   ScrollView,
   ToastAndroid,
+  Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -21,6 +22,7 @@ import {
   FIELDS,
   APP_VERSION,
   SK_TOKEN,
+  SK_USER_DATA,
 } from '../../utils/constants';
 import { CustomRadioButton } from '..';
 
@@ -62,7 +64,7 @@ export default function PersonalSettingModal({
   const [email, setEmail] = useState<string>(userData?.email || '');
   const [grade, setGrade] = useState<string>(userData?.grade || '');
   const [fieldOfInterest, setFieldOfInterest] = useState<string>(
-    userData?.field_of_interest || '',
+    userData?.field_of_interest || 'Mathematics',
   );
   const [approvedNoti, setApprovedNoti] = useState<number>(
     userData?.approve_notification || 1,
@@ -79,19 +81,20 @@ export default function PersonalSettingModal({
   }, []);
 
   const onSwitch = () => {
-    console.log(+!approvedNoti);
-
     setApprovedNoti(+!approvedNoti);
   };
 
+  const isRTL = locale === 'he' || locale === 'ar';
+
   const onSaveSettingPressed = async () => {
     if (firstName == '' || fieldOfInterest == '' || email == '') {
-      ToastAndroid.show(
+      Alert.alert(
+        '',
         intl.formatMessage({
           id: `lang.${locale}.must_input_personal_setting`,
         }),
-        ToastAndroid.SHORT,
       );
+
       return;
     }
 
@@ -107,8 +110,6 @@ export default function PersonalSettingModal({
       field_of_interest: fieldOfInterest,
       approve_notification: approvedNoti,
     };
-
-    console.log(data);
 
     try {
       setIsFetching(true);
@@ -152,6 +153,8 @@ export default function PersonalSettingModal({
   const onLogout = () => {
     setUserData({});
     removeStorageData(SK_TOKEN);
+    removeStorageData(SK_USER_DATA);
+
     toggleModal();
     navigation.navigate('register');
   };
@@ -229,7 +232,16 @@ export default function PersonalSettingModal({
                           isSelected && { backgroundColor: '#D2D9DF' },
                         ]}
                       >
-                        <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                        <Text
+                          style={[
+                            styles.dropdownItemTxtStyle,
+                            {
+                              writingDirection: isRTL ? 'rtl' : 'ltr',
+                            },
+                          ]}
+                        >
+                          {item}
+                        </Text>
                       </View>
                     );
                   }}
@@ -326,7 +338,16 @@ export default function PersonalSettingModal({
                           isSelected && { backgroundColor: '#D2D9DF' },
                         ]}
                       >
-                        <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                        <Text
+                          style={[
+                            styles.dropdownItemTxtStyle,
+                            {
+                              writingDirection: isRTL ? 'rtl' : 'ltr',
+                            },
+                          ]}
+                        >
+                          {item}
+                        </Text>
                       </View>
                     );
                   }}
@@ -368,10 +389,20 @@ export default function PersonalSettingModal({
                       <View
                         style={[
                           styles.dropdownItemStyle,
+
                           isSelected && { backgroundColor: '#D2D9DF' },
                         ]}
                       >
-                        <Text style={styles.dropdownItemTxtStyle}>{item}</Text>
+                        <Text
+                          style={[
+                            styles.dropdownItemTxtStyle,
+                            {
+                              writingDirection: isRTL ? 'rtl' : 'ltr',
+                            },
+                          ]}
+                        >
+                          {item}
+                        </Text>
                       </View>
                     );
                   }}
@@ -569,7 +600,7 @@ const styles = StyleSheet.create({
     width: '60%',
     textAlign: 'center',
     color: '#000',
-    fontSize: 16,
+    fontSize: 12,
     height: 40,
     padding: 0,
   },

@@ -179,6 +179,8 @@ export default function AnswerModal(): React.JSX.Element {
     setSelectionStart(start);
   };
 
+  const isRTL = locale === 'he' || locale === 'ar';
+
   return (
     <Modal isVisible={!!selQuestionId} backdropColor="rgba(1, 90, 128, 0.9)">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -198,11 +200,21 @@ export default function AnswerModal(): React.JSX.Element {
 
             <View style={styles.content}>
               <TextInput
-                style={styles.developer}
-                multiline={true}
+                style={[
+                  styles.developer,
+                  {
+                    textAlign: isRTL ? 'right' : 'left',
+                    writingDirection: isRTL ? 'rtl' : 'ltr',
+                  },
+                ]}
+                multiline
                 value={answer}
                 onChangeText={onAnswerChange}
                 onSelectionChange={onSelectionChange}
+                textAlignVertical="top"
+                returnKeyType="send"
+                blurOnSubmit={true}
+                onSubmitEditing={onSendQuestionPressed}
               />
             </View>
 

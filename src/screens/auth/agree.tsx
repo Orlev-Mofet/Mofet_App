@@ -15,6 +15,7 @@ import {
   CustomButton,
   CustomCheckBox,
   TextMont4Normal,
+  useLocale,
 } from '../../components';
 import { storeStorageData } from '../../utils/localStorage';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -26,6 +27,8 @@ export default function Agree({
 }): React.JSX.Element {
   const inset = useSafeAreaInsets();
   const intl = useIntl();
+  const { locale } = useLocale();
+
   const [isChecked, setIsChecked] = useState(false);
 
   const onAgree = () => {
@@ -41,6 +44,8 @@ export default function Agree({
   const onPrAPoPressed = () => {
     navigation.navigate('privacy_policy');
   };
+
+  const isRTL = locale === 'he' || locale === 'ar';
 
   return (
     <ImageBackground
@@ -61,7 +66,7 @@ export default function Agree({
             },
           ]}
         >
-          <View style={styles.checkboxLine}>
+          <View style={[styles.checkboxLine]}>
             <CustomCheckBox
               onChange={handleCheckBoxClick}
               checked={isChecked}

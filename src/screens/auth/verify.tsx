@@ -35,12 +35,15 @@ import {
 
 import { getFetchData } from '../../utils/fetchData';
 import { getStorageData, storeStorageData } from '../../utils/localStorage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Verify({
   navigation,
 }: {
   navigation: any;
 }): React.JSX.Element {
+  const inset = useSafeAreaInsets();
+
   const intl = useIntl();
   const { setUserData } = useUser();
   const { locale } = useLocale();
@@ -111,7 +114,7 @@ export default function Verify({
     try {
       const storageData = await getStorageData(SK_PHONE_INFO);
       const phoneData = storageData && JSON.parse(storageData);
-      // send OTP
+      // send OTPd
       const res2 = await getFetchData(
         `sendOTP?phone_number=${phoneData?.phone_code}${phoneData?.phone_number}&hash=${hash}`,
       );
@@ -190,13 +193,20 @@ export default function Verify({
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          <View style={styles.imageContainer}>
+          <View
+            style={[
+              styles.imageContainer,
+              {
+                paddingTop: inset.top,
+              },
+            ]}
+          >
             <Image
               style={{ height: 100, width: 100, objectFit: 'contain' }}
               source={require('../../../assets/images/logo2.png')}
             />
           </View>
-          <TextMont4Normal style={styles.numberText}>
+          <TextMont4Normal style={[styles.numberText]}>
             {intl.formatMessage({ id: 'auth.label.loginText' })}
           </TextMont4Normal>
 
@@ -264,7 +274,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   imageContainer: {
-    paddingTop: 30,
+    // paddingTop: 30,
     paddingBottom: 30,
     justifyContent: 'center',
     alignItems: 'center',
@@ -279,6 +289,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#000000',
+    writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr',
   },
 
   otpContainer: {

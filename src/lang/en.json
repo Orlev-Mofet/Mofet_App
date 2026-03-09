@@ -1,16 +1,16 @@
 {
-  "auth.label.copyright": "Copyrights © {year}",
+  "auth.label.copyright": "Copyrights Â© {year}",
   "auth.label.version": "Version {version}",
   "auth.label.Next": "Next",
   "auth.label.Agree": "Agree",
   "auth.label.Ihaveread": "I have read and agree to ",
-  "auth.label.privacypolicy": "privacy policy",
+  "auth.label.privacypolicy": "Privacy & Policy",
   "auth.label.Register": "Register",
   "auth.label.EnterMobileNumber": "Enter Mobile Number",
   "auth.label.byContinuing": "By continuing, I confirm that I have read & agree to the ",
   "auth.label.and": " and ",
-  "auth.label.Terms_condition": "Terms & condition",
-  "auth.label.Privacy_policy": "Privacy policy",
+  "auth.label.Terms_condition": "Terms & Condition",
+  "auth.label.Privacy_policy": "Privacy & Policy",
   "auth.label.loginText": "Enter the 4-digit code which is sent to your email and phone number",
   "auth.label.Verify": "Verify",
   "auth.label.receive_code_yet": "Haven't received code yet?",
@@ -37,5 +37,12 @@
   "label.main.posted_by": "Posted by: {value}",
   "label.main.privacy_policy": "Privacy Policy",
 
-  "grade": ["1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade"]
+  "grade": [
+    "7th Grade",
+    "8th Grade",
+    "9th Grade",
+    "10th Grade",
+    "11th Grade",
+    "12th Grade"
+  ]
 }

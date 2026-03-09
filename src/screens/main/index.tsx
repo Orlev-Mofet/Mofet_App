@@ -159,6 +159,7 @@ export default function MainPage({
           const res = await getFetchData(
             `question?user_id=${user_id}&field=${field}&locale=${locale}&wall=${wall}&search=${search}&page=${pageNum}`,
           );
+
           if (res && res.status === ST_SUCCESS) {
             setPage(res.data.current_page + 1);
             setNextPageUrl(res.data.next_page_url);

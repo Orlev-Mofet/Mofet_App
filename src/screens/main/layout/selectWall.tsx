@@ -1,10 +1,10 @@
+import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  ScrollView,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import {
@@ -25,12 +25,87 @@ export default function SelectWall({
   setSelectedWall,
   onWallChanged,
 }: SWInterface): React.JSX.Element {
+  const listRef = React.useRef<FlatList>(null);
+
   const intl = useIntl();
   const { locale } = useLocale();
+
+  const isRTL = locale === 'he' || locale === 'ar';
+
+  React.useEffect(() => {
+    if (isRTL) {
+      requestAnimationFrame(() => {
+        listRef.current?.scrollToEnd({ animated: false });
+      });
+    }
+  }, [isRTL]);
+
+  const walls = [
+    {
+      key: 'Mathematics',
+      iconActive: require('../../../../assets/icons/dart/Mathematics.png'),
+      iconInactive: require('../../../../assets/icons/white/Mathematics.png'),
+      label: `lang.${locale}.mathematics`,
+    },
+    {
+      key: 'Physics',
+      iconActive: require('../../../../assets/icons/dart/Physics.png'),
+      iconInactive: require('../../../../assets/icons/white/Physics.png'),
+      label: `lang.${locale}.physics`,
+    },
+    {
+      key: 'Both',
+      iconActive: require('../../../../assets/icons/dart/Math_Physics.png'),
+      iconInactive: require('../../../../assets/icons/white/Math_Physics.png'),
+      label: `lang.${locale}.maths_physics`,
+    },
+    {
+      key: 'MyOnly',
+      iconActive: require('../../../../assets/icons/dart/My_Only_Question.png'),
+      iconInactive: require('../../../../assets/icons/white/My_Only_Question.png'),
+      label: `lang.${locale}.my_own_questions`,
+    },
+    {
+      key: 'AllQuestion',
+      iconActive: require('../../../../assets/icons/dart/All_Questions.png'),
+      iconInactive: require('../../../../assets/icons/white/All_Questions.png'),
+      label: `lang.${locale}.all_questions`,
+    },
+  ];
 
   const onWallChange = (value: string) => {
     setSelectedWall(value);
     onWallChanged(value);
+  };
+
+  const renderItem = ({ item }: any) => {
+    const isSelected = selectedWall === item.key;
+
+    return (
+      <TouchableOpacity
+        style={styles.scrollItem}
+        onPress={() => onWallChange(item.key)}
+        activeOpacity={0.8}
+      >
+        <Shadow
+          style={[
+            styles.shadowItem,
+            { backgroundColor: isSelected ? '#04939E' : '#FFF' },
+          ]}
+          distance={5}
+        >
+          <Image
+            source={isSelected ? item.iconActive : item.iconInactive}
+            style={styles.itemImage}
+          />
+          <TextPopp4Regular
+            style={[styles.itemText, { color: isSelected ? '#FFF' : '#000' }]}
+          >
+            {intl.formatMessage({ id: item.label })}
+          </TextPopp4Regular>
+        </Shadow>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -38,199 +113,32 @@ export default function SelectWall({
       <TextMont4Normal style={styles.topText}>
         {intl.formatMessage({ id: `lang.${locale}.select_the_wall` })}
       </TextMont4Normal>
-      <ScrollView
-        horizontal={true}
-        contentContainerStyle={{ paddingVertical: 10, paddingHorizontal: 10 }}
+
+      <FlatList
+        data={walls}
+        ref={listRef}
+        horizontal
+        keyExtractor={item => item.key}
+        renderItem={renderItem}
         showsHorizontalScrollIndicator={false}
-      >
-        <TouchableOpacity
-          style={styles.scrollItem}
-          onPress={() => onWallChange('Mathematics')}
-        >
-          <Shadow
-            style={[
-              styles.shadowItem,
-              {
-                backgroundColor:
-                  selectedWall === 'Mathematics' ? '#04939E' : '#FFF',
-              },
-            ]}
-            distance={5}
-          >
-            {selectedWall === 'Mathematics' ? (
-              <Image
-                source={require('../../../../assets/icons/dart/Mathematics.png')}
-                style={[styles.itemImage]}
-              />
-            ) : (
-              <Image
-                source={require('../../../../assets/icons/white/Mathematics.png')}
-                style={[styles.itemImage]}
-              />
-            )}
-            <TextPopp4Regular
-              style={[
-                styles.itemText,
-                { color: selectedWall === 'Mathematics' ? '#FFF' : '#000' },
-              ]}
-            >
-              {intl.formatMessage({ id: `lang.${locale}.mathematics` })}
-            </TextPopp4Regular>
-          </Shadow>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.scrollItem}
-          onPress={() => onWallChange('Physics')}
-        >
-          <Shadow
-            style={[
-              styles.shadowItem,
-              {
-                backgroundColor:
-                  selectedWall === 'Physics' ? '#04939E' : '#FFF',
-              },
-            ]}
-            distance={5}
-          >
-            {selectedWall === 'Physics' ? (
-              <Image
-                source={require('../../../../assets/icons/dart/Physics.png')}
-                style={[styles.itemImage]}
-              />
-            ) : (
-              <Image
-                source={require('../../../../assets/icons/white/Physics.png')}
-                style={[styles.itemImage]}
-              />
-            )}
-            <TextPopp4Regular
-              style={[
-                styles.itemText,
-                { color: selectedWall === 'Physics' ? '#FFF' : '#000' },
-              ]}
-            >
-              {intl.formatMessage({ id: `lang.${locale}.physics` })}
-            </TextPopp4Regular>
-          </Shadow>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.scrollItem}
-          onPress={() => onWallChange('Both')}
-        >
-          <Shadow
-            style={[
-              styles.shadowItem,
-              { backgroundColor: selectedWall === 'Both' ? '#04939E' : '#FFF' },
-            ]}
-            distance={5}
-          >
-            {selectedWall === 'Both' ? (
-              <Image
-                source={require('../../../../assets/icons/dart/Math_Physics.png')}
-                style={[styles.itemImage]}
-              />
-            ) : (
-              <Image
-                source={require('../../../../assets/icons/white/Math_Physics.png')}
-                style={[styles.itemImage]}
-              />
-            )}
-            <TextPopp4Regular
-              style={[
-                styles.itemText,
-                { color: selectedWall === 'Both' ? '#FFF' : '#000' },
-              ]}
-            >
-              {intl.formatMessage({ id: `lang.${locale}.maths_physics` })}
-            </TextPopp4Regular>
-          </Shadow>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.scrollItem}
-          onPress={() => onWallChange('MyOnly')}
-        >
-          <Shadow
-            style={[
-              styles.shadowItem,
-              {
-                backgroundColor: selectedWall === 'MyOnly' ? '#04939E' : '#FFF',
-              },
-            ]}
-            distance={5}
-          >
-            {selectedWall === 'MyOnly' ? (
-              <Image
-                source={require('../../../../assets/icons/dart/My_Only_Question.png')}
-                style={[styles.itemImage]}
-              />
-            ) : (
-              <Image
-                source={require('../../../../assets/icons/white/My_Only_Question.png')}
-                style={[styles.itemImage]}
-              />
-            )}
-            <TextPopp4Regular
-              style={[
-                styles.itemText,
-                { color: selectedWall === 'MyOnly' ? '#FFF' : '#000' },
-              ]}
-            >
-              {intl.formatMessage({ id: `lang.${locale}.my_own_questions` })}
-            </TextPopp4Regular>
-          </Shadow>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.scrollItem}
-          onPress={() => onWallChange('AllQuestion')}
-        >
-          <Shadow
-            style={[
-              styles.shadowItem,
-              {
-                backgroundColor:
-                  selectedWall === 'AllQuestion' ? '#04939E' : '#FFF',
-              },
-            ]}
-            distance={5}
-          >
-            {selectedWall === 'AllQuestion' ? (
-              <Image
-                source={require('../../../../assets/icons/dart/All_Questions.png')}
-                style={[styles.itemImage]}
-              />
-            ) : (
-              <Image
-                source={require('../../../../assets/icons/white/All_Questions.png')}
-                style={[styles.itemImage]}
-              />
-            )}
-            <TextPopp4Regular
-              style={[
-                styles.itemText,
-                { color: selectedWall === 'AllQuestion' ? '#FFF' : '#000' },
-              ]}
-            >
-              {intl.formatMessage({ id: `lang.${locale}.all_questions` })}
-            </TextPopp4Regular>
-          </Shadow>
-        </TouchableOpacity>
-      </ScrollView>
+        inverted={isRTL}
+        contentContainerStyle={styles.flatListContainer}
+        keyboardShouldPersistTaps="handled"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
   topText: {
     color: '#04939E',
     textAlign: 'center',
-
     marginTop: 20,
     textTransform: 'uppercase',
+  },
+  flatListContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   scrollItem: {
     marginHorizontal: 10,
