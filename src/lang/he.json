@@ -37,5 +37,12 @@
   "label.main.posted_by": "פורסם על ידי: {value}",
   "label.main.privacy_policy": "מדיניות ופרטיות",
 
-  "grade": ["כיתה ז", "כיתה ח", "כיתה ט", "כיתה י", "כיתה יא", "כיתה יב"]
+  "label.remove_account": "הסרת החשבון",
+  "label.english": "עברית",
+
+  "grade": ["כיתה ז", "כיתה ח", "כיתה ט", "כיתה י", "כיתה יא", "כיתה יב"],
+  "interests.Mathematics": "מתמטיקה",
+  "interests.Physics": "פיזיקה",
+  "interests.Both": "שניהם",
+  "interests.English": "אנגלית"
 }

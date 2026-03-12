@@ -27,13 +27,8 @@ import {
   useUser,
   useQuestion,
   TextPopp4Regular,
-  CommonObject,
 } from '..';
-import {
-  storeFetchFormData,
-  getFetchData,
-  storeFetchProgressFormData,
-} from '../../utils/fetchData';
+import { storeFetchFormData, getFetchData } from '../../utils/fetchData';
 import { ST_ERROR, ST_SUCCESS, bytesToMB } from '../../utils/constants';
 
 export default function AnswerModal(): React.JSX.Element {
@@ -41,8 +36,8 @@ export default function AnswerModal(): React.JSX.Element {
 
   const { locale, constant } = useLocale();
   const { userData } = useUser();
-  const { setUpdateQuestionItem } = useQuestion();
-  const { selQuestionId, setSelQuestionId } = useQuestion();
+  const { setUpdateQuestionItem, selWall, selQuestionId, setSelQuestionId } =
+    useQuestion();
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -203,8 +198,9 @@ export default function AnswerModal(): React.JSX.Element {
                 style={[
                   styles.developer,
                   {
-                    textAlign: isRTL ? 'right' : 'left',
-                    writingDirection: isRTL ? 'rtl' : 'ltr',
+                    textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
+                    writingDirection:
+                      selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
                   },
                 ]}
                 multiline

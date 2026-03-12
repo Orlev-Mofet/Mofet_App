@@ -23,11 +23,12 @@ import {
   APP_VERSION,
   SK_TOKEN,
   SK_USER_DATA,
+  SK_INTEREST,
 } from '../../utils/constants';
 import { CustomRadioButton } from '..';
 
 import { useIntl } from 'react-intl';
-import { removeStorageData } from '../../utils/localStorage';
+import { removeStorageData, storeStorageData } from '../../utils/localStorage';
 import { useNavigation } from '@react-navigation/native';
 interface PSInterface {
   isModalVisible: boolean;
@@ -97,6 +98,8 @@ export default function PersonalSettingModal({
 
       return;
     }
+
+    storeStorageData(SK_INTEREST, fieldOfInterest);
 
     const data = {
       first_name: firstName,
@@ -372,7 +375,9 @@ export default function PersonalSettingModal({
                     return (
                       <View style={styles.dropdownButtonStyle}>
                         <Text style={styles.dropdownButtonTxtStyle}>
-                          {selectedItem || ' '}
+                          {intl.formatMessage({
+                            id: `interests.${selectedItem}`,
+                          }) || ' '}
                         </Text>
                         <Image
                           source={require('../../../assets/images/chevron-down.png')}
@@ -401,7 +406,9 @@ export default function PersonalSettingModal({
                             },
                           ]}
                         >
-                          {item}
+                          {intl.formatMessage({
+                            id: `interests.${item}`,
+                          }) || ' '}
                         </Text>
                       </View>
                     );
@@ -452,7 +459,7 @@ export default function PersonalSettingModal({
                   // title={intl.formatMessage({
                   //   id: 'label.setting.save_settings',
                   // })}
-                  title="Remove Account"
+                  title={intl.formatMessage({ id: 'label.remove_account' })}
                   onPress={handleRemoveAccountConfirmation}
                   size="small"
                   isLoading={isFetching}

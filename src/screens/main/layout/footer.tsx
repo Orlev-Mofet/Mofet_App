@@ -19,24 +19,25 @@ export default function MainFooter(): React.JSX.Element {
     setShowQuestionModalVisible(true);
   };
 
+  const isShowQuestionButton =
+    selWall === 'Mathematics' || selWall === 'Physics' || selWall === 'Both';
+
   return (
     <View style={{ marginBottom: insets.bottom }}>
-      {!openQuestion &&
-        (selWall === 'Mathematics' || selWall === 'Physics') && (
-          <View style={[styles.bottom]}>
-            <View style={styles.bottomButton}>
-              {!openQuestion &&
-                (selWall === 'Mathematics' || selWall === 'Physics') && (
-                  <CustomButton
-                    title={intl.formatMessage({
-                      id: `lang.${locale}.ask_question?`,
-                    })}
-                    onPress={toggleModal}
-                  />
-                )}
-            </View>
+      {!openQuestion && isShowQuestionButton && (
+        <View style={[styles.bottom]}>
+          <View style={styles.bottomButton}>
+            {!openQuestion && isShowQuestionButton && (
+              <CustomButton
+                title={intl.formatMessage({
+                  id: `lang.${locale}.ask_question?`,
+                })}
+                onPress={toggleModal}
+              />
+            )}
           </View>
-        )}
+        </View>
+      )}
       <QuestionModal />
     </View>
   );

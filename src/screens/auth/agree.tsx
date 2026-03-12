@@ -66,7 +66,14 @@ export default function Agree({
             },
           ]}
         >
-          <View style={[styles.checkboxLine]}>
+          <View
+            style={[
+              styles.checkboxLine,
+              {
+                direction: isRTL ? 'rtl' : 'ltr',
+              },
+            ]}
+          >
             <CustomCheckBox
               onChange={handleCheckBoxClick}
               checked={isChecked}

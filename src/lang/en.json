@@ -37,6 +37,14 @@
   "label.main.posted_by": "Posted by: {value}",
   "label.main.privacy_policy": "Privacy Policy",
 
+  "label.remove_account": "Remove account",
+  "label.english": "English",
+
+  "interests.Mathematics": "Mathematics",
+  "interests.Physics": "Physics",
+  "interests.Both": "Both",
+  "interests.English": "English",
+
   "grade": [
     "7th Grade",
     "8th Grade",

@@ -205,8 +205,9 @@ export default function QuestionModal(): React.JSX.Element {
                 style={[
                   styles.developer,
                   {
-                    textAlign: isRTL ? 'right' : 'left',
-                    writingDirection: isRTL ? 'rtl' : 'ltr',
+                    textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
+                    writingDirection:
+                      selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
                   },
                 ]}
                 multiline

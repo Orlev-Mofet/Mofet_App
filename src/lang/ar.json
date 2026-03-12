@@ -37,6 +37,9 @@
   "label.main.posted_by": "منشور من طرف: {value}",
   "label.main.privacy_policy": "سياسة الخصوصية",
 
+  "label.remove_account": "حذف الحساب",
+  "label.english": "عربي",
+
   "grade": [
     "الصف السابع",
     "الصف الثامن",
@@ -44,5 +47,10 @@
     "الصف العاشر",
     "الصف الحادي عشر",
     "الصف الثاني عشر"
-  ]
+  ],
+
+  "interests.Mathematics": "الرياضيات",
+  "interests.Physics": "الفيزياء",
+  "interests.Both": "كلاهما",
+  "interests.English": "الإنجليزية"
 }

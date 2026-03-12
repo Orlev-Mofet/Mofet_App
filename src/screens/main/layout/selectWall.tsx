@@ -35,7 +35,9 @@ export default function SelectWall({
   React.useEffect(() => {
     if (isRTL) {
       requestAnimationFrame(() => {
-        listRef.current?.scrollToEnd({ animated: false });
+        listRef.current?.scrollToEnd({
+          animated: false,
+        });
       });
     }
   }, [isRTL]);
@@ -87,12 +89,11 @@ export default function SelectWall({
         onPress={() => onWallChange(item.key)}
         activeOpacity={0.8}
       >
-        <Shadow
+        <View
           style={[
             styles.shadowItem,
             { backgroundColor: isSelected ? '#04939E' : '#FFF' },
           ]}
-          distance={5}
         >
           <Image
             source={isSelected ? item.iconActive : item.iconInactive}
@@ -103,10 +104,23 @@ export default function SelectWall({
           >
             {intl.formatMessage({ id: item.label })}
           </TextPopp4Regular>
-        </Shadow>
+        </View>
       </TouchableOpacity>
     );
   };
+
+  // nestedScrollEnabled
+  // // for better show data in list you should reverse data
+  // data={Calendar.reverse()}
+  // keyExtractor={item => item.visit_day_identity}
+  // renderItem={renderItem}
+  // horizontal
+  // pagingEnabled
+  // showsHorizontalScrollIndicator={false}
+  // snapToEnd
+  // ref={element}
+  // // this attr is scrolled to start
+  // inverted={true}
 
   return (
     <View>
@@ -115,7 +129,7 @@ export default function SelectWall({
       </TextMont4Normal>
 
       <FlatList
-        data={walls}
+        data={isRTL ? walls.reverse() : walls}
         ref={listRef}
         horizontal
         keyExtractor={item => item.key}
@@ -136,18 +150,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textTransform: 'uppercase',
   },
+  shadowItem: {
+    alignItems: 'center',
+    borderRadius: 10,
+    width: 100,
+    height: 100,
+
+    // iOS shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+
+    // Android
+    elevation: 4,
+  },
   flatListContainer: {
     paddingVertical: 10,
     paddingHorizontal: 10,
   },
   scrollItem: {
     marginHorizontal: 10,
-  },
-  shadowItem: {
-    alignItems: 'center',
-    borderRadius: 10,
-    width: 100,
-    height: 100,
+    direction: 'ltr',
   },
   itemImage: {
     width: 60,

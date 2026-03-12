@@ -12,6 +12,7 @@ export const SK_PHONE_INFO          = "_phone_information";
 export const SK_RESTART_TIME        = "_restart_time";
 export const SK_USER_DATA           = "_user_data";
 export const SK_OTP_CODE            = "_otp_code";
+export const SK_INTEREST            = "_interest";
 
 
 // ST = STatus
@@ -21,7 +22,7 @@ export const ST_SUCCESS             = "success";
 export const FIELDS = [
     "Mathematics", 
     "Physics", 
-    "Both", 
+    // "Both", 
     "English"
 ];
 

@@ -262,7 +262,7 @@ export default function MainPage({
       const savedWall = await getStorageData(MP_SELECTED_WALL);
       const savedSearchText = await getStorageData(MP_SEARCH_TEXT);
 
-      setSelWallText(savedWall || 'Mathematics');
+      // setSelWallText(savedWall || 'Mathematics');
       setSearchText(savedSearchText || '');
 
       getQuestions(

@@ -32,7 +32,6 @@ import { storeFetchData, getFetchData } from '../../utils/fetchData';
 import { storeStorageData, getStorageData } from '../../utils/localStorage';
 
 import { getHash } from 'react-native-otp-verify';
-import Toast from 'react-native-toast-message';
 
 export default function Register({
   navigation,
@@ -271,7 +270,8 @@ const styles = StyleSheet.create({
   verifyContainer: {
     width: '85%',
     display: 'flex',
-    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+    flexDirection: 'row',
+    direction: 'ltr',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
