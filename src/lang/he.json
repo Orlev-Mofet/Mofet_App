@@ -43,6 +43,5 @@
   "grade": ["כיתה ז", "כיתה ח", "כיתה ט", "כיתה י", "כיתה יא", "כיתה יב"],
   "interests.Mathematics": "מתמטיקה",
   "interests.Physics": "פיזיקה",
-  "interests.Both": "שניהם",
-  "interests.English": "אנגלית"
+  "interests.Both": "אנגלית"
 }

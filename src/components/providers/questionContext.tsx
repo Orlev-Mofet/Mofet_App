@@ -49,10 +49,9 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
       const interest = await getStorageData(SK_INTEREST);
 
       console.log(interest, 'interest');
+      
 
-      if (interest) {
-        setSelWallText(interest);
-      }
+      setSelWallText(interest || 'Mathematics');
     } catch (error) {
       console.log(error);
     }

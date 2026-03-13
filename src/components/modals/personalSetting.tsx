@@ -114,26 +114,28 @@ export default function PersonalSettingModal({
       approve_notification: approvedNoti,
     };
 
+    console.log(fieldOfInterest, 'fieldOfInterest');
+
     try {
       setIsFetching(true);
 
       const res = await updateFetchData(`user/${userData.id}`, data);
+
       setIsFetching(false);
       if (res && res.status == ST_SUCCESS) {
         setUserData(res.user);
 
-        ToastAndroid.show(
+        Alert.alert(
+          '',
           intl.formatMessage({
             id: `lang.${locale}.personal_setting_saved_success`,
           }),
-          ToastAndroid.SHORT,
         );
-        setTimeout(function () {
-          toggleModal();
-        }, 1500);
+
+        toggleModal();
       }
     } catch (error: any) {
-      console.log(error);
+      console.log(error, 'ERROR');
 
       console.log(error.message);
       setIsFetching(false);
