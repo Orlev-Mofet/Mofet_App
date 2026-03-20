@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { I18nManager, Keyboard, Platform, Pressable } from 'react-native';
 
 import {
@@ -35,6 +35,8 @@ export default function LoginWithEmail({
   const intl = useIntl();
   const { locale } = useLocale();
 
+  const [isLoading, setLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -48,16 +50,22 @@ export default function LoginWithEmail({
   const { setUserData } = useUser();
 
   const onSubmit = async (data: FormData) => {
-    const res = await storeFetchData('signin', {
-      email: data.email,
-      password: data.password,
-    });
-    if (res.status === 'success') {
-      console.log(res?.token, 'TOKEN');
-      
-      await storeStorageData(SK_TOKEN, res?.token);
-      setUserData(res?.user);
-      navigation.navigate('main');
+    try {
+      setLoading(true);
+
+      const res = await storeFetchData('signin', {
+        email: data.email,
+        password: data.password,
+      });
+      if (res.status === 'success') {
+        await storeStorageData(SK_TOKEN, res?.token);
+        setUserData(res?.user);
+        navigation.navigate('main');
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -168,8 +176,8 @@ export default function LoginWithEmail({
         <View style={styles.bottom}>
           <View style={styles.bottomButton}>
             <CustomButton
-              //   title={intl.formatMessage({id: 'auth.label.Register'})}
               title={'Sign in'}
+              isLoading={isLoading}
               onPress={handleSubmit(onSubmit)}
             />
           </View>
@@ -265,6 +273,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap',
     width: '80%',
+    gap: 8,
   },
   textContainer2: {
     flexDirection: 'row',

@@ -8,6 +8,7 @@ import {
   I18nManager,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import OTPTextView from 'react-native-otp-textinput';
 import {
@@ -63,10 +64,11 @@ export default function Verify({
     if (isFetching) return;
 
     if (otpCode?.length !== 4) {
-      ToastAndroid.show(
+      Alert.alert(
+        '',
         intl.formatMessage({ id: `lang.${locale}.please_input_correct_otp` }),
-        ToastAndroid.SHORT,
       );
+
       return;
     }
 
@@ -189,6 +191,8 @@ export default function Verify({
     }
   }, [remainSec]);
 
+  const isRTL = locale === 'he' || locale === 'ar';
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -206,7 +210,14 @@ export default function Verify({
               source={require('../../../assets/images/logo2.png')}
             />
           </View>
-          <TextMont4Normal style={[styles.numberText]}>
+          <TextMont4Normal
+            style={[
+              styles.numberText,
+              {
+                writingDirection: isRTL ? 'rtl' : 'ltr',
+              },
+            ]}
+          >
             {intl.formatMessage({ id: 'auth.label.loginText' })}
           </TextMont4Normal>
 
@@ -289,7 +300,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#000000',
-    writingDirection: I18nManager.isRTL ? 'rtl' : 'ltr',
   },
 
   otpContainer: {
@@ -302,7 +312,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderBottomWidth: 1,
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
 
   countContainer: {

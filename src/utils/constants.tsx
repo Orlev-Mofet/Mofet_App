@@ -25,7 +25,7 @@ export const FIELDS = ['Mathematics', 'Physics', 'Both'];
 export const MP_SELECTED_WALL = 'selected_wall';
 export const MP_SEARCH_TEXT = 'search_text';
 
-export const APP_VERSION = '3.0';
+export const APP_VERSION = '3.1';
 
 export const bytesToMB = (bytes: number) => {
   return bytes / (1024 * 1024); // 1 MB = 1024 * 1024 bytes

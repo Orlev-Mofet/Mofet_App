@@ -40,14 +40,12 @@
   "label.remove_account": "حذف الحساب",
   "label.english": "عربي",
 
-  "grade": [
-    "الصف السابع",
-    "الصف الثامن",
-    "الصف التاسع",
-    "الصف العاشر",
-    "الصف الحادي عشر",
-    "الصف الثاني عشر"
-  ],
+  "grade.7th Grade": "الصف السابع",
+  "grade.8th Grade": "الصف الثامن",
+  "grade.9th Grade": "الصف التاسع",
+  "grade.10th Grade": "الصف العاشر",
+  "grade.11th Grade": "الصف الحادي عشر",
+  "grade.12th Grade": "الصف الثاني عشر",
 
   "interests.Mathematics": "الرياضيات",
   "interests.Physics": "الفيزياء",

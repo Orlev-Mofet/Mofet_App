@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { I18nManager, Platform, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform } from 'react-native';
 import {
   Image,
   StyleSheet,
@@ -14,12 +14,7 @@ import parsePhoneNumber, { CountryCode } from 'libphonenumber-js';
 import CountryFlag from 'react-native-country-flag';
 import { CountryPicker } from 'react-native-country-codes-picker';
 
-import {
-  SK_AGREE_POLICY,
-  SK_PHONE_INFO,
-  ST_ERROR,
-  ST_SUCCESS,
-} from '../../utils/constants';
+import { SK_PHONE_INFO, ST_ERROR } from '../../utils/constants';
 
 import {
   CustomButton,
@@ -150,6 +145,8 @@ export default function Register({
     navigation.navigate('privacy_policy');
   };
 
+  const isRTL = locale === 'he' || locale === 'ar';
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -159,7 +156,14 @@ export default function Register({
             source={require('../../../assets/images/logo2.png')}
           />
         </View>
-        <TextMont4Normal style={styles.numberText}>
+        <TextMont4Normal
+          style={[
+            styles.numberText,
+            {
+              direction: isRTL ? 'rtl' : 'ltr',
+            },
+          ]}
+        >
           {intl.formatMessage({ id: 'auth.label.EnterMobileNumber' })}
         </TextMont4Normal>
         <View style={styles.verifyContainer}>
@@ -213,7 +217,14 @@ export default function Register({
           </TextPopp4Regular>
         </TouchableOpacity>
 
-        <View style={styles.textContainer}>
+        <View
+          style={[
+            styles.textContainer,
+            {
+              direction: isRTL ? 'rtl' : 'ltr',
+            },
+          ]}
+        >
           <TextPopp4Regular style={styles.black}>
             {intl.formatMessage({ id: 'auth.label.byContinuing' })}
           </TextPopp4Regular>
@@ -328,6 +339,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
+    gap: 8,
     width: '80%',
   },
   textContainer2: {

@@ -66,6 +66,10 @@ export default function MainHeader({
     setIsModalVisible(!isModalVisible);
   };
 
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <View
       style={[
@@ -142,6 +146,7 @@ export default function MainHeader({
       <PersonalSettingModal
         isModalVisible={isModalVisible}
         toggleModal={toggleModal}
+        onCloseModal={closeModal}
       />
     </View>
   );

@@ -5,8 +5,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Pressable,
 } from 'react-native';
-import { Shadow } from 'react-native-shadow-2';
 import {
   TextMont4Normal,
   TextPopp4Regular,
@@ -84,10 +84,9 @@ export default function SelectWall({
     const isSelected = selectedWall === item.key;
 
     return (
-      <TouchableOpacity
-        style={styles.scrollItem}
+      <Pressable
         onPress={() => onWallChange(item.key)}
-        activeOpacity={0.8}
+        style={styles.scrollItem}
       >
         <View
           style={[
@@ -105,22 +104,9 @@ export default function SelectWall({
             {intl.formatMessage({ id: item.label })}
           </TextPopp4Regular>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
-
-  // nestedScrollEnabled
-  // // for better show data in list you should reverse data
-  // data={Calendar.reverse()}
-  // keyExtractor={item => item.visit_day_identity}
-  // renderItem={renderItem}
-  // horizontal
-  // pagingEnabled
-  // showsHorizontalScrollIndicator={false}
-  // snapToEnd
-  // ref={element}
-  // // this attr is scrolled to start
-  // inverted={true}
 
   return (
     <View>

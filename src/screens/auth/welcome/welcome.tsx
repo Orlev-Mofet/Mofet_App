@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {TextMont4Normal, TextMont7Bold, useLocale} from '../../../components';
-import {useIntl} from 'react-intl';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { TextMont4Normal, TextMont7Bold, useLocale } from '../../../components';
+import { useIntl } from 'react-intl';
 
 export default function Welcome(): React.JSX.Element {
   const intl = useIntl();
 
-  const {locale} = useLocale();
+  const { locale } = useLocale();
 
   return (
     <View style={styles.container}>
@@ -16,12 +16,11 @@ export default function Welcome(): React.JSX.Element {
         style={styles.image}
       />
       <TextMont7Bold style={styles.headerText}>
-        {intl.formatMessage({id: `auth.label.welcome_to_mofet`})}
+        {intl.formatMessage({ id: `auth.label.welcome_to_mofet` })}
       </TextMont7Bold>
       <TextMont4Normal style={[styles.contentText]}>
-        {intl.formatMessage({id: `lang.${locale}.welcome_to_mofet`})}
+        {intl.formatMessage({ id: `lang.${locale}.welcome_to_mofet` })}
       </TextMont4Normal>
-      <Image source={require('../../../../assets/images/step1.png')} />
     </View>
   );
 }

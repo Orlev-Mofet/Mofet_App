@@ -27,8 +27,10 @@ export default function PrivacyAndPolicy({
     navigation.goBack();
   };
 
+  const isRTL = locale === 'he' || locale === 'ar';
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <View style={styles.header}>
         <Pressable onPress={onBackPressed}>
           <Image
@@ -44,7 +46,14 @@ export default function PrivacyAndPolicy({
         </View>
       </View>
 
-      <View style={styles.contentContainer}>
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            direction: isRTL ? 'rtl' : 'ltr',
+          },
+        ]}
+      >
         <TextMont4Normal style={styles.headerText}>
           {intl.formatMessage({ id: 'label.main.privacy_policy' })}{' '}
         </TextMont4Normal>

@@ -48,9 +48,6 @@ export function QuestionProvider({ children }: { children: ReactNode }) {
     try {
       const interest = await getStorageData(SK_INTEREST);
 
-      console.log(interest, 'interest');
-      
-
       setSelWallText(interest || 'Mathematics');
     } catch (error) {
       console.log(error);

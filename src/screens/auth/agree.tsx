@@ -1,12 +1,5 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import {
-  ImageBackground,
-  StyleSheet,
-  Pressable,
-  View,
-  Image,
-  Text,
-} from 'react-native';
+import React, { useState } from 'react';
+import { ImageBackground, StyleSheet, View, Image } from 'react-native';
 
 import { useIntl } from 'react-intl';
 
@@ -55,7 +48,6 @@ export default function Agree({
       <View style={styles.container}>
         <View style={styles.content}>
           <Image source={require('../../../assets/images/newLogo.png')} />
-          {/* <Image source={require('../../../assets/images/logo-text.png')} /> */}
         </View>
         <View style={styles.flex} />
         <View
@@ -70,6 +62,7 @@ export default function Agree({
             style={[
               styles.checkboxLine,
               {
+                gap: 12,
                 direction: isRTL ? 'rtl' : 'ltr',
               },
             ]}
@@ -90,6 +83,7 @@ export default function Agree({
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton
+              disabled={!isChecked}
               color="blue"
               title={intl.formatMessage({ id: 'auth.label.Agree' })}
               onPress={onAgree}
@@ -176,7 +170,6 @@ const styles = StyleSheet.create({
   checkboxText: {
     color: '#FFFFFF',
     fontSize: 14,
-    marginLeft: 10,
     lineHeight: 20,
   },
 });

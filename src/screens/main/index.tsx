@@ -24,6 +24,7 @@ import {
   ST_SUCCESS,
   MP_SEARCH_TEXT,
   MP_SELECTED_WALL,
+  SK_INTEREST,
 } from '../../utils/constants';
 import { storeStorageData, getStorageData } from '../../utils/localStorage';
 import Toast from 'react-native-toast-message';
@@ -155,6 +156,8 @@ export default function MainPage({
         if (!nextPage) return;
         setIsFetchingFlag(true);
 
+        console.log(wall, 'wall');
+
         try {
           const res = await getFetchData(
             `question?user_id=${user_id}&field=${field}&locale=${locale}&wall=${wall}&search=${search}&page=${pageNum}`,
@@ -259,7 +262,7 @@ export default function MainPage({
 
   useEffect(() => {
     const init = async () => {
-      const savedWall = await getStorageData(MP_SELECTED_WALL);
+      const savedWall = await getStorageData(SK_INTEREST);
       const savedSearchText = await getStorageData(MP_SEARCH_TEXT);
 
       // setSelWallText(savedWall || 'Mathematics');

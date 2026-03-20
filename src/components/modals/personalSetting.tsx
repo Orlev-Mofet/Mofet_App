@@ -9,7 +9,6 @@ import {
   TextInput,
   I18nManager,
   ScrollView,
-  ToastAndroid,
   Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -33,10 +32,12 @@ import { useNavigation } from '@react-navigation/native';
 interface PSInterface {
   isModalVisible: boolean;
   toggleModal: () => void;
+  onCloseModal: () => void;
 }
 
 export default function PersonalSettingModal({
   isModalVisible,
+  onCloseModal,
   toggleModal,
 }: PSInterface): React.JSX.Element {
   const intl = useIntl();
@@ -70,6 +71,15 @@ export default function PersonalSettingModal({
   const [approvedNoti, setApprovedNoti] = useState<number>(
     userData?.approve_notification || 1,
   );
+
+  const GRADE = [
+    '7th Grade',
+    '8th Grade',
+    '9th Grade',
+    '10th Grade',
+    '11th Grade',
+    '12th Grade',
+  ];
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
@@ -114,8 +124,6 @@ export default function PersonalSettingModal({
       approve_notification: approvedNoti,
     };
 
-    console.log(fieldOfInterest, 'fieldOfInterest');
-
     try {
       setIsFetching(true);
 
@@ -135,8 +143,6 @@ export default function PersonalSettingModal({
         toggleModal();
       }
     } catch (error: any) {
-      console.log(error, 'ERROR');
-
       console.log(error.message);
       setIsFetching(false);
     }
@@ -160,7 +166,9 @@ export default function PersonalSettingModal({
     removeStorageData(SK_TOKEN);
     removeStorageData(SK_USER_DATA);
 
-    toggleModal();
+    setTimeout(() => {
+      onCloseModal();
+    }, 300);
     navigation.navigate('register');
   };
 
@@ -314,7 +322,7 @@ export default function PersonalSettingModal({
                   {intl.formatMessage({ id: `lang.${locale}.your_grade` })}
                 </TextMont4Normal>
                 <SelectDropdown
-                  data={grades}
+                  data={GRADE}
                   onSelect={(selectedItem, index) => {
                     setGrade(selectedItem);
                   }}
@@ -323,7 +331,9 @@ export default function PersonalSettingModal({
                     return (
                       <View style={styles.dropdownButtonStyle}>
                         <Text style={styles.dropdownButtonTxtStyle}>
-                          {selectedItem || ' '}
+                          {intl.formatMessage({
+                            id: `grade.${selectedItem}`,
+                          }) || ' '}
                         </Text>
                         <Image
                           source={require('../../../assets/images/chevron-down.png')}
@@ -351,7 +361,9 @@ export default function PersonalSettingModal({
                             },
                           ]}
                         >
-                          {item}
+                          {intl.formatMessage({
+                            id: `grade.${item}`,
+                          }) || ' '}
                         </Text>
                       </View>
                     );

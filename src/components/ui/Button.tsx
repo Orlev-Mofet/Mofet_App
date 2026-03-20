@@ -20,6 +20,7 @@ type Props = {
   color?: 'teal' | 'blue';
   isLoading?: boolean;
   style?: StyleProp<ViewStyle>;
+  disabled?: boolean;
 };
 
 const CustomButton = ({
@@ -29,6 +30,7 @@ const CustomButton = ({
   icon,
   isLoading,
   color = 'teal',
+  disabled = false,
   style = {},
 }: Props) => {
   const colors = {
@@ -39,10 +41,12 @@ const CustomButton = ({
   return (
     <Pressable
       style={[
+        { opacity: disabled ? 0.4 : 1 },
         { backgroundColor: colors[color] },
         size === 'small' ? [styles.buttonSM, style] : [styles.button, style],
       ]}
       onPress={onPress}
+      disabled={disabled}
     >
       {isLoading ? (
         <ActivityIndicator
