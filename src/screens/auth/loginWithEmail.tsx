@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { I18nManager, Keyboard, Platform, Pressable } from 'react-native';
-
+import messaging from '@react-native-firebase/messaging';
 import {
   Image,
   StyleSheet,
@@ -53,9 +53,16 @@ export default function LoginWithEmail({
     try {
       setLoading(true);
 
+      await messaging().registerDeviceForRemoteMessages();
+      const _fcmToken = await messaging().getToken();
+
+      console.log(_fcmToken, '_fcmToken');
+      
+
       const res = await storeFetchData('signin', {
         email: data.email,
         password: data.password,
+        fcm: _fcmToken,
       });
       if (res.status === 'success') {
         await storeStorageData(SK_TOKEN, res?.token);

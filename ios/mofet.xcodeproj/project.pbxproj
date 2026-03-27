@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		7FCC56502F34CEF70025224B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7FCC564F2F34CEF70025224B /* GoogleService-Info.plist */; };
+		7FE073FD2F75619000DF1D33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7FCC564F2F34CEF70025224B /* GoogleService-Info.plist */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9735D834313FA77C0692577D /* Pods_mofet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 516E8299B5A9046FC6540E6E /* Pods_mofet.framework */; };
 		E5392C0B626CC0B4C341E01A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -164,7 +164,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FCC56502F34CEF70025224B /* GoogleService-Info.plist in Resources */,
+				7FE073FD2F75619000DF1D33 /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E5392C0B626CC0B4C341E01A /* PrivacyInfo.xcprivacy in Resources */,
@@ -299,7 +299,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -328,7 +328,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

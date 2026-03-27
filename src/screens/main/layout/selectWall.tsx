@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Pressable,
-} from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import {
   TextMont4Normal,
   TextPopp4Regular,
   useLocale,
 } from '../../../components';
 import { useIntl } from 'react-intl';
+import { FlatList, Pressable } from 'react-native-gesture-handler';
 
 interface SWInterface {
   selectedWall: string;

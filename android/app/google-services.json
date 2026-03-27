@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1001354337542",
-    "project_id": "mofet-f354c",
-    "storage_bucket": "mofet-f354c.appspot.com"
+    "project_number": "939388695434",
+    "project_id": "orlev-mofet",
+    "storage_bucket": "orlev-mofet.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1001354337542:android:b2aae89955f9f77c34d287",
+        "mobilesdk_app_id": "1:939388695434:android:057764e113f6951ab30e73",
         "android_client_info": {
           "package_name": "com.mofet.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD6DqNh1lsUEedS2-6Em770_Cod5UkHPy8"
+          "current_key": "AIzaSyCvyMnVn9_YrsOApb4WoO7Tyrdsr-MR7ao"
         }
       ],
       "services": {
