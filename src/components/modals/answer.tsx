@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import { useIntl } from 'react-intl';
@@ -103,14 +104,21 @@ export default function AnswerModal(): React.JSX.Element {
 
       setIsFetching(false);
       if (res && res.status === ST_SUCCESS) {
+        const body = intl.formatMessage({
+          id: `lang.${locale}.answer_added_on_your_question`,
+        });
+
         await getFetchData(
-          `notify/sendPushNotification?sort=answer&locale=${locale}&field_of_interest=${userData?.field_of_interest}&id=${userData?.id}&question_id=${res?.question?.id}&field=${res?.question?.field}&question_user_id=${res?.question?.user_id}`,
+          `notify/sendPushNotification?body=${body}&title=${'Answer'}&id=${
+            res?.question?.user_id
+          }`,
         );
 
-        ToastAndroid.show(
+        Alert.alert(
+          '',
           intl.formatMessage({ id: `lang.${locale}.answer_saved_success` }),
-          ToastAndroid.SHORT,
         );
+
         setSelQuestionId(0);
 
         setAnswer('');

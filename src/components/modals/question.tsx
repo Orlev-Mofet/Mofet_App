@@ -10,6 +10,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import { useIntl } from 'react-intl';
@@ -53,7 +54,7 @@ export default function QuestionModal(): React.JSX.Element {
   const [file, setFile] = useState<DocumentPickerResponse>();
   const [fileSort, setFileSort] = useState<string>('');
   const [fileType, setFileType] = useState<string>('');
-  const [progress, setProgress] = useState<number>(0);
+  const [progress, setProgress] = useState<number>();
   const [selectedEmoji, setSelectedEmoji] = useState<any>('');
 
   const onQuestionChange = (q: string) => setQuestion(q);
@@ -111,14 +112,24 @@ export default function QuestionModal(): React.JSX.Element {
       if (res && res.status === ST_SUCCESS) {
         setQuestionsData([res.question, ...questions]);
 
+        const body = intl.formatMessage({
+          id: res.question?.field === 'both' ? `` : `lang.${locale}.new_${res.question?.field.toLowerCase()}_question_posted`,
+        });
+
         await getFetchData(
-          `notify/sendPushNotification?sort=question_${res.question?.field}&locale=${locale}&id=${userData?.id}&field_of_interest=${userData?.field_of_interest}&question_id=${res.question?.id}`,
+          `notify/sendPushNotification?body=${body}&title=${'Question'}&id=${
+            userData?.id
+          }`,
         );
 
-        ToastAndroid.show(
+        console.log(body, 'body');
+        
+
+        Alert.alert(
+          '',
           intl.formatMessage({ id: `lang.${locale}.question_saved_success` }),
-          ToastAndroid.SHORT,
         );
+
         setQuestion('');
 
         setFile(undefined);

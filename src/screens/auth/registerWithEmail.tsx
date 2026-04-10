@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
+  Alert,
   I18nManager,
   Keyboard,
   Platform,
@@ -28,7 +29,6 @@ import {
 } from '../../components';
 
 import { Controller, useForm } from 'react-hook-form';
-import Button from '../../components/ui/Button';
 import { RegisterWithEmailSchema } from '../../validationSchemas/authSchemas';
 import { storeFetchData } from '../../utils/fetchData';
 import { storeStorageData } from '../../utils/localStorage';
@@ -48,6 +48,7 @@ export default function RegisterWithEmail({
   const intl = useIntl();
   const { locale } = useLocale();
   const { setUserData } = useUser();
+  const [isLoader, setLoader] = useState(false);
 
   const {
     control,
@@ -62,21 +63,27 @@ export default function RegisterWithEmail({
     resolver: zodResolver(RegisterWithEmailSchema),
   });
   const onSubmit = async (data: FormData) => {
-    await messaging().registerDeviceForRemoteMessages();
-    const _fcmToken = await messaging().getToken();
-    // const newUser = new FormData();
-    // newUser.append('email', data.email);
-    // newUser.append('password', data.password);
-    // newUser.append('fcm', _fcmToken);
-    const res = await storeFetchData('signup', {
-      email: data.email,
-      password: data.password,
-      fcm: _fcmToken,
-    });
-    if (res.status === 'success') {
-      await storeStorageData(SK_TOKEN, res?.token);
-      setUserData(res?.user);
-      navigation.navigate('main');
+    try {
+      setLoader(true);
+
+      await messaging().registerDeviceForRemoteMessages();
+      const _fcmToken = await messaging().getToken();
+
+      const res = await storeFetchData('signup', {
+        email: data.email,
+        password: data.password,
+        fcm: _fcmToken,
+      });
+      if (res.status === 'success') {
+        await storeStorageData(SK_TOKEN, res?.token);
+        await setUserData(res?.user);
+        navigation.navigate('main');
+      }
+    } catch (error: any) {
+      console.log(error);
+      Alert.alert('', error.message);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -215,8 +222,9 @@ export default function RegisterWithEmail({
         <View style={styles.bottom}>
           <View style={styles.bottomButton}>
             <CustomButton
-              //   title={intl.formatMessage({id: 'auth.label.Register'})}
-              title={'Sign Up'}
+              title={intl.formatMessage({ id: 'auth.label.Register' })}
+              // title={'Sign Up'}
+              isLoading={isLoader}
               onPress={handleSubmit(onSubmit)}
             />
           </View>

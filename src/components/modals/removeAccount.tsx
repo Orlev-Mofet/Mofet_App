@@ -1,24 +1,12 @@
-import {Image, Pressable, StyleSheet, ToastAndroid, View} from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
-import {useState} from 'react';
-import {useIntl} from 'react-intl';
+import { useState } from 'react';
+import { useIntl } from 'react-intl';
 
-import {
-  CustomButton,
-  TextMont4Normal,
-  useLocale,
-  useUser,
-  useQuestion,
-  initialAbuseType,
-} from '..';
-import {
-  deleteFetchData,
-  getFetchData,
-  updateFetchData,
-} from '../../utils/fetchData';
-import {SK_TOKEN, ST_SUCCESS} from '../../utils/constants';
-import {removeStorageData} from '../../utils/localStorage';
-import {useNavigation} from '@react-navigation/native';
+import { CustomButton, TextMont4Normal, useUser } from '..';
+import { deleteFetchData } from '../../utils/fetchData';
+import { SK_TOKEN } from '../../utils/constants';
+import { removeStorageData } from '../../utils/localStorage';
 
 export default function RemoveAccountModal({
   navigation,
@@ -26,18 +14,27 @@ export default function RemoveAccountModal({
   navigation: any;
 }): React.JSX.Element {
   const intl = useIntl();
-  const {locale} = useLocale();
 
-  const {removeConfirmation, setRemoveConfirmation, userData, setUserData} =
+  const { removeConfirmation, setRemoveConfirmation, userData, setUserData } =
     useUser();
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const onRemovePress = async () => {
-    await deleteFetchData(`user/${userData?.id}`);
-    setRemoveConfirmation(false);
-    removeStorageData(SK_TOKEN);
-    navigation.navigate('register');
+    try {
+      setIsFetching(true);
+      await deleteFetchData(`user/${userData?.id}`);
+      await removeStorageData(SK_TOKEN);
+
+      setUserData({});
+
+      setRemoveConfirmation(false);
+      navigation.navigate('register');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   return (
@@ -58,7 +55,7 @@ export default function RemoveAccountModal({
           </TextMont4Normal>
 
           <View style={styles.content}>
-            <TextMont4Normal style={{textAlign: 'center'}}>
+            <TextMont4Normal style={{ textAlign: 'center' }}>
               {/* {intl.formatMessage({
                 id: `lang.${locale}.confirming_abuse_content`,
               })} */}
@@ -68,18 +65,18 @@ export default function RemoveAccountModal({
           </View>
 
           <View style={styles.bottomContainer}>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <CustomButton
-                title={intl.formatMessage({id: 'label.main.comfirm'})}
+                title={intl.formatMessage({ id: 'label.main.comfirm' })}
                 onPress={onRemovePress}
                 size="small"
                 isLoading={isFetching}
               />
             </View>
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <CustomButton
-                title={intl.formatMessage({id: 'label.main.cancel'})}
+                title={intl.formatMessage({ id: 'label.main.cancel' })}
                 onPress={() => setRemoveConfirmation(false)}
                 size="small"
               />

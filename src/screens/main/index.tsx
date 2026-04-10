@@ -38,6 +38,7 @@ export default function MainPage({
   const intl = useIntl();
 
   const { locale } = useLocale();
+
   const {
     questions,
     selWall,

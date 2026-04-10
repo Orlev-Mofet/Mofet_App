@@ -43,11 +43,10 @@ export default function PersonalSettingModal({
   const intl = useIntl();
   const { setUserData, userData, setShowContactUs, setRemoveConfirmation } =
     useUser();
-  const { constant, messages, locale } = useLocale();
+  const { constant, locale } = useLocale();
   const navigation = useNavigation();
 
   const [years, setYears] = useState<number[]>([]);
-  const grades = messages['grade'] || [];
 
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
@@ -161,15 +160,15 @@ export default function PersonalSettingModal({
     }, 1000);
   };
 
-  const onLogout = () => {
+  const onLogout = async () => {
     setUserData({});
-    removeStorageData(SK_TOKEN);
-    removeStorageData(SK_USER_DATA);
+    await removeStorageData(SK_TOKEN);
+    await removeStorageData(SK_USER_DATA);
 
     setTimeout(() => {
       onCloseModal();
+      navigation.navigate('register');
     }, 300);
-    navigation.navigate('register');
   };
 
   return (
@@ -331,9 +330,11 @@ export default function PersonalSettingModal({
                     return (
                       <View style={styles.dropdownButtonStyle}>
                         <Text style={styles.dropdownButtonTxtStyle}>
-                          {intl.formatMessage({
-                            id: `grade.${selectedItem}`,
-                          }) || ' '}
+                          {selectedItem
+                            ? intl.formatMessage({
+                                id: `grade.${selectedItem}`,
+                              })
+                            : ' '}
                         </Text>
                         <Image
                           source={require('../../../assets/images/chevron-down.png')}

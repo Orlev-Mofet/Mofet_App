@@ -49,5 +49,7 @@
 
   "interests.Mathematics": "الرياضيات",
   "interests.Physics": "الفيزياء",
-  "interests.Both": "الإنجليزية"
+  "interests.Both": "الإنجليزية",
+
+  "new_both_question_posted": "تم نشر سؤال جديد باللغة الإنجليزية"
 }
