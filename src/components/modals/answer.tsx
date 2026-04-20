@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import { useIntl } from 'react-intl';
@@ -186,98 +187,103 @@ export default function AnswerModal(): React.JSX.Element {
 
   return (
     <Modal isVisible={!!selQuestionId} backdropColor="rgba(1, 90, 128, 0.9)">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View style={styles.top}>
-            <Pressable onPress={() => setSelQuestionId(0)}>
-              <Image
-                source={require('../../../assets/images/modal_close.png')}
-                style={styles.modalClose}
-              />
-            </Pressable>
-          </View>
-          <View style={styles.contentContainer}>
-            <TextMont4Normal style={styles.header}>
-              {intl.formatMessage({ id: 'label.main.answer' })}
-            </TextMont4Normal>
-
-            <View style={styles.content}>
-              <TextInput
-                style={[
-                  styles.developer,
-                  {
-                    textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
-                    writingDirection:
-                      selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
-                  },
-                ]}
-                multiline
-                value={answer}
-                onChangeText={onAnswerChange}
-                onSelectionChange={onSelectionChange}
-                textAlignVertical="top"
-                returnKeyType="send"
-                blurOnSubmit={true}
-                onSubmitEditing={onSendQuestionPressed}
-              />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.top}>
+              <Pressable onPress={() => setSelQuestionId(0)}>
+                <Image
+                  source={require('../../../assets/images/modal_close.png')}
+                  style={styles.modalClose}
+                />
+              </Pressable>
             </View>
+            <View style={styles.contentContainer}>
+              <TextMont4Normal style={styles.header}>
+                {intl.formatMessage({ id: 'label.main.answer' })}
+              </TextMont4Normal>
 
-            <View style={styles.bottomContainer}>
-              <View style={styles.iconContainer}>
-                <Pressable
-                  style={styles.roundContainer}
-                  onPress={() => setIsOpen(true)}
-                >
-                  <Image
-                    source={require('../../../assets/images/emoji_icon.png')}
-                    style={styles.icon}
-                  />
-                </Pressable>
-                <Pressable
+              <View style={styles.content}>
+                <TextInput
                   style={[
-                    styles.roundContainer,
-                    file && { backgroundColor: '#1485A3' },
+                    styles.developer,
+                    {
+                      textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
+                      writingDirection:
+                        selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
+                    },
                   ]}
-                  onPress={handleFilePick}
-                >
-                  <Image
-                    source={require('../../../assets/images/pin_icon.png')}
-                    style={[
-                      styles.icon,
-                      !file
-                        ? { tintColor: '#6A6A6A' }
-                        : { tintColor: '#FFFFFF' },
-                    ]}
-                  />
-                </Pressable>
-
-                {file && isFetching && progress > 0 && progress < 1 && (
-                  <TextPopp4Regular style={{ paddingTop: 10 }}>
-                    {Math.floor(progress * 100)}%
-                  </TextPopp4Regular>
-                )}
+                  multiline
+                  value={answer}
+                  onChangeText={onAnswerChange}
+                  onSelectionChange={onSelectionChange}
+                  textAlignVertical="top"
+                  returnKeyType="send"
+                  blurOnSubmit={true}
+                  onSubmitEditing={onSendQuestionPressed}
+                />
               </View>
-              <View style={styles.buttonContainer}>
-                <CustomButton
-                  title={intl.formatMessage({ id: 'label.main.send' })}
-                  onPress={onSendQuestionPressed}
-                  size="small"
-                  icon={'flight'}
-                  isLoading={isFetching}
+
+              <View style={styles.bottomContainer}>
+                <View style={styles.iconContainer}>
+                  <Pressable
+                    style={styles.roundContainer}
+                    onPress={() => setIsOpen(true)}
+                  >
+                    <Image
+                      source={require('../../../assets/images/emoji_icon.png')}
+                      style={styles.icon}
+                    />
+                  </Pressable>
+                  <Pressable
+                    style={[
+                      styles.roundContainer,
+                      file && { backgroundColor: '#1485A3' },
+                    ]}
+                    onPress={handleFilePick}
+                  >
+                    <Image
+                      source={require('../../../assets/images/pin_icon.png')}
+                      style={[
+                        styles.icon,
+                        !file
+                          ? { tintColor: '#6A6A6A' }
+                          : { tintColor: '#FFFFFF' },
+                      ]}
+                    />
+                  </Pressable>
+
+                  {file && isFetching && progress > 0 && progress < 1 && (
+                    <TextPopp4Regular style={{ paddingTop: 10 }}>
+                      {Math.floor(progress * 100)}%
+                    </TextPopp4Regular>
+                  )}
+                </View>
+                <View style={styles.buttonContainer}>
+                  <CustomButton
+                    title={intl.formatMessage({ id: 'label.main.send' })}
+                    onPress={onSendQuestionPressed}
+                    size="small"
+                    icon={'flight'}
+                    isLoading={isFetching}
+                  />
+                </View>
+              </View>
+              <View style={{ direction: 'ltr' }}>
+                <EmojiPicker
+                  onEmojiSelected={(emoji: EmojiType) => handleEmojiPick(emoji)}
+                  open={isOpen}
+                  onClose={() => setIsOpen(false)}
+                  allowMultipleSelections={true}
                 />
               </View>
             </View>
-            <View style={{ direction: 'ltr' }}>
-              <EmojiPicker
-                onEmojiSelected={(emoji: EmojiType) => handleEmojiPick(emoji)}
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                allowMultipleSelections={true}
-              />
-            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

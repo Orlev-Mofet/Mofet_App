@@ -58,6 +58,16 @@ export default function MainPage({
   const [searchText, setSearchText] = useState<string>('');
   const [page, setPage] = useState<number>(1);
 
+  const [cache, setCache] = useState<{
+    [key: string]: {
+      data: any[];
+      page: number;
+      nextPageUrl: string | null;
+    };
+  }>({});
+
+  const [refreshing, setRefreshing] = useState(false);
+
   const [nextPageUrl, setNextPageUrl] = useState<string | null>('start');
 
   const setInitValue = () => {
@@ -104,6 +114,17 @@ export default function MainPage({
 
       setSelWallText(value);
       storeStorageData(MP_SELECTED_WALL, value);
+
+      const cached = cache[value];
+
+      if (cached) {
+        setQuestionsData(cached.data);
+        setPage(cached.page);
+        setNextPageUrl(cached.nextPageUrl);
+
+        return;
+      }
+
       setInitValue();
       getQuestions(
         userData.id,
@@ -116,21 +137,15 @@ export default function MainPage({
         true,
       );
     },
-    [questions, selWall, isFetching],
+    [cache, selWall, isFetching],
   );
-
-  const updateQuestionItem = (question: any) => {};
 
   const ItemSeparator = () => (
     <View style={{ height: 10, backgroundColor: 'transparent' }} />
   );
 
   const renderItem = ({ item }: { item: any }) => (
-    <ListItem
-      data={item}
-      key={item.id}
-      updateQuestionItem={updateQuestionItem}
-    />
+    <ListItem data={item} key={item.id} updateQuestionItem={() => null} />
   );
 
   const getQuestions = useCallback(
@@ -165,14 +180,25 @@ export default function MainPage({
           );
 
           if (res && res.status === ST_SUCCESS) {
+            const newData = init
+              ? res.data.data
+              : [...questions, ...res.data.data];
+
+            setQuestionsData(newData);
+
+            setCache(prev => ({
+              ...prev,
+              [wall]: {
+                data: newData,
+                page: res.data.current_page + 1,
+                nextPageUrl: res.data.next_page_url,
+              },
+            }));
+
             setPage(res.data.current_page + 1);
             setNextPageUrl(res.data.next_page_url);
-            if (init) {
-              setQuestionsData(res.data.data);
-            } else {
-              setQuestionsData([...questions, ...res.data.data]);
-            }
           }
+
           setIsFetchingFlag(false);
         } catch (error: any) {
           setIsFetchingFlag(false);
@@ -216,6 +242,30 @@ export default function MainPage({
     },
     [questions, selWall],
   );
+
+  const onRefresh = async () => {
+    if (refreshing) return;
+
+    setCache(prev => ({
+      ...prev,
+      [selWall]: undefined,
+    }));
+
+    setRefreshing(true);
+
+    await getQuestions(
+      userData.id,
+      userData.field_of_interest,
+      locale,
+      selWall,
+      searchText,
+      1,
+      '1',
+      true,
+    );
+
+    setRefreshing(false);
+  };
 
   const getAnsweredQuestion = useCallback(
     (question_id: number, allQuestion: CommonObject[] = []) => {
@@ -266,7 +316,6 @@ export default function MainPage({
       const savedWall = await getStorageData(SK_INTEREST);
       const savedSearchText = await getStorageData(MP_SEARCH_TEXT);
 
-      // setSelWallText(savedWall || 'Mathematics');
       setSearchText(savedSearchText || '');
 
       getQuestions(
@@ -288,12 +337,6 @@ export default function MainPage({
       const data = JSON.parse(remoteMessage?.notification?.body || '');
       if (remoteMessage?.notification?.title === 'question_Physics') {
         if (wallValue?.locale === data?.locale) {
-          //   ToastAndroid.show(
-          //     intl.formatMessage({
-          //       id: `lang.${locale}.new_physics_question_posted`,
-          //     }),
-          //     ToastAndroid.SHORT,
-          //   );
           Toast.show({
             text1: intl.formatMessage({
               id: `lang.${locale}.new_physics_question_posted`,
@@ -310,12 +353,6 @@ export default function MainPage({
         remoteMessage?.notification?.title === 'question_Mathematics'
       ) {
         if (wallValue?.locale === data?.locale) {
-          //   ToastAndroid.show(
-          //     intl.formatMessage({
-          //       id: `lang.${locale}.new_mathematics_question_posted`,
-          //     }),
-          //     ToastAndroid.SHORT,
-          //   );
           Toast.show({
             text1: intl.formatMessage({
               id: `lang.${locale}.new_mathematics_question_posted`,
@@ -332,36 +369,18 @@ export default function MainPage({
       } else if (remoteMessage?.notification?.title === 'answer') {
         if (wallValue?.locale === data?.locale) {
           if (data?.question_user_id === userData?.id) {
-            // ToastAndroid.show(
-            //   intl.formatMessage({
-            //     id: `lang.${locale}.answer_added_on_your_question`,
-            //   }),
-            //   ToastAndroid.SHORT,
-            // );
             Toast.show({
               text1: intl.formatMessage({
                 id: `lang.${locale}.answer_added_on_your_question`,
               }),
             });
           } else if (data?.field === 'Mathematics') {
-            // ToastAndroid.show(
-            //   intl.formatMessage({
-            //     id: `lang.${locale}.answer_posted_on_math_question`,
-            //   }),
-            //   ToastAndroid.SHORT,
-            // );
             Toast.show({
               text1: intl.formatMessage({
                 id: `lang.${locale}.answer_posted_on_math_question`,
               }),
             });
           } else if (data?.field === 'Physics') {
-            // ToastAndroid.show(
-            //   intl.formatMessage({
-            //     id: `lang.${locale}.answer_posted_on_physics_question`,
-            //   }),
-            //   ToastAndroid.SHORT,
-            // );
             Toast.show({
               text1: intl.formatMessage({
                 id: `lang.${locale}.answer_posted_on_physics_question`,
@@ -374,10 +393,6 @@ export default function MainPage({
           );
         }
       } else if (remoteMessage?.notification?.title === 'abuse_question') {
-        // ToastAndroid.show(
-        //   intl.formatMessage({id: `lang.${locale}.your_question_abused`}),
-        //   ToastAndroid.SHORT,
-        // );
         Toast.show({
           text1: intl.formatMessage({
             id: `lang.${locale}.your_question_abused`,
@@ -389,19 +404,11 @@ export default function MainPage({
             id: `lang.${locale}.your_answer_abused`,
           }),
         });
-        // ToastAndroid.show(
-        //   intl.formatMessage({id: `lang.${locale}.your_answer_abused`}),
-        //   ToastAndroid.SHORT,
-        // );
       } else if (remoteMessage?.notification?.title == 'admin_alarm') {
         Toast.show({
           text1: `Administrator Alarm:`,
           text2: `${remoteMessage?.notification?.body}`,
         });
-        // ToastAndroid.show(
-        //   'Administrator Alarm: \n ' + remoteMessage?.notification?.body,
-        //   ToastAndroid.LONG,
-        // );
       }
     });
 
@@ -458,12 +465,14 @@ export default function MainPage({
                 </Text>
               </View>
             }
+            refreshing={refreshing}
+            onRefresh={onRefresh}
           />
         </View>
       </View>
 
       <View>
-        <MainFooter />
+        <MainFooter onSuccess={() => onRefresh()} />
       </View>
       <AbuseModal />
       <AnswerModal />

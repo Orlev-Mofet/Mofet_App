@@ -9,7 +9,13 @@ import {
 } from '../../../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function MainFooter(): React.JSX.Element {
+interface IMainFooter {
+  onSuccess?: () => void;
+}
+
+export default function MainFooter({
+  onSuccess,
+}: IMainFooter): React.JSX.Element {
   const intl = useIntl();
   const insets = useSafeAreaInsets();
   const { locale } = useLocale();
@@ -38,7 +44,7 @@ export default function MainFooter(): React.JSX.Element {
           </View>
         </View>
       )}
-      <QuestionModal />
+      <QuestionModal onSuccess={onSuccess} />
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,7 +7,7 @@ import {
   Platform,
   TextInput,
   ToastAndroid,
-  Text,
+  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
@@ -25,16 +25,16 @@ import {
 import { TextPopp4Regular, useLocale, useUser } from '..';
 
 import { CustomButton, TextMont4Normal, useQuestion } from '..';
-import {
-  getFetchData,
-  storeFetchFormData,
-  storeFetchProgressFormData,
-} from '../../utils/fetchData';
+import { getFetchData, storeFetchFormData } from '../../utils/fetchData';
 import { ST_ERROR, ST_SUCCESS, bytesToMB } from '../../utils/constants';
 
-interface QInterface {}
+interface IQuestionModal {
+  onSuccess?: () => void;
+}
 
-export default function QuestionModal(): React.JSX.Element {
+export default function QuestionModal({
+  onSuccess,
+}: IQuestionModal): React.JSX.Element {
   const intl = useIntl();
 
   const { locale, constant } = useLocale();
@@ -113,17 +113,17 @@ export default function QuestionModal(): React.JSX.Element {
         setQuestionsData([res.question, ...questions]);
 
         const body = intl.formatMessage({
-          id: res.question?.field === 'both' ? `` : `lang.${locale}.new_${res.question?.field.toLowerCase()}_question_posted`,
+          id:
+            res.question?.field.toLowerCase() === 'both'
+              ? `new_both_question_posted`
+              : `lang.${locale}.new_${res.question?.field.toLowerCase()}_question_posted`,
         });
 
-        await getFetchData(
+        getFetchData(
           `notify/sendPushNotification?body=${body}&title=${'Question'}&id=${
             userData?.id
-          }`,
+          }&field=${res.question?.field}&type=question`,
         );
-
-        console.log(body, 'body');
-        
 
         Alert.alert(
           '',
@@ -143,6 +143,8 @@ export default function QuestionModal(): React.JSX.Element {
           ToastAndroid.show(res.errors[keys[0]][0], ToastAndroid.SHORT);
         }
       }
+
+      if (onSuccess) onSuccess();
     } catch (error: any) {
       setIsFetching(false);
       ToastAndroid.show(error.message, ToastAndroid.SHORT);
@@ -196,98 +198,103 @@ export default function QuestionModal(): React.JSX.Element {
 
   return (
     <Modal isVisible={showQuestionModal} backdropColor="rgba(1, 90, 128, 0.9)">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View style={styles.top}>
-            <Pressable onPress={() => setShowQuestionModalVisible(false)}>
-              <Image
-                source={require('../../../assets/images/modal_close.png')}
-                style={styles.modalClose}
-              />
-            </Pressable>
-          </View>
-          <View style={styles.contentContainer}>
-            <TextMont4Normal style={styles.header}>
-              {intl.formatMessage({ id: `lang.${locale}.ask_question` })}
-            </TextMont4Normal>
-
-            <View style={styles.content}>
-              <TextInput
-                style={[
-                  styles.developer,
-                  {
-                    textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
-                    writingDirection:
-                      selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
-                  },
-                ]}
-                multiline
-                value={question}
-                onChangeText={onQuestionChange}
-                onSelectionChange={onSelectionChange}
-                textAlignVertical="top"
-                returnKeyType="send"
-                blurOnSubmit={true}
-                onSubmitEditing={onSendQuestionPressed}
-              />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.top}>
+              <Pressable onPress={() => setShowQuestionModalVisible(false)}>
+                <Image
+                  source={require('../../../assets/images/modal_close.png')}
+                  style={styles.modalClose}
+                />
+              </Pressable>
             </View>
+            <View style={styles.contentContainer}>
+              <TextMont4Normal style={styles.header}>
+                {intl.formatMessage({ id: `lang.${locale}.ask_question` })}
+              </TextMont4Normal>
 
-            <View style={styles.bottomContainer}>
-              <View style={styles.iconContainer}>
-                <Pressable
-                  style={styles.roundContainer}
-                  onPress={() => setIsOpen(true)}
-                >
-                  <Image
-                    source={require('../../../assets/images/emoji_icon.png')}
-                    style={styles.icon}
-                  />
-                </Pressable>
-                <Pressable
+              <View style={styles.content}>
+                <TextInput
                   style={[
-                    styles.roundContainer,
-                    file && { backgroundColor: '#1485A3' },
+                    styles.developer,
+                    {
+                      textAlign: selWall !== 'Both' && isRTL ? 'right' : 'left',
+                      writingDirection:
+                        selWall !== 'Both' && isRTL ? 'rtl' : 'ltr',
+                    },
                   ]}
-                  onPress={handleFilePick}
-                >
-                  <Image
-                    source={require('../../../assets/images/pin_icon.png')}
-                    style={[
-                      styles.icon,
-                      !file
-                        ? { tintColor: '#6A6A6A' }
-                        : { tintColor: '#FFFFFF' },
-                    ]}
-                  />
-                </Pressable>
-
-                {file && isFetching && progress > 0 && progress < 1 && (
-                  <TextPopp4Regular style={{ paddingTop: 10 }}>
-                    {Math.floor(progress * 100)}%
-                  </TextPopp4Regular>
-                )}
+                  multiline
+                  value={question}
+                  onChangeText={onQuestionChange}
+                  onSelectionChange={onSelectionChange}
+                  textAlignVertical="top"
+                  returnKeyType="send"
+                  blurOnSubmit={true}
+                  onSubmitEditing={onSendQuestionPressed}
+                />
               </View>
-              <View style={styles.buttonContainer}>
-                <CustomButton
-                  title={intl.formatMessage({ id: 'label.main.send' })}
-                  onPress={onSendQuestionPressed}
-                  size="small"
-                  icon={'flight'}
-                  isLoading={isFetching}
+
+              <View style={styles.bottomContainer}>
+                <View style={styles.iconContainer}>
+                  <Pressable
+                    style={styles.roundContainer}
+                    onPress={() => setIsOpen(true)}
+                  >
+                    <Image
+                      source={require('../../../assets/images/emoji_icon.png')}
+                      style={styles.icon}
+                    />
+                  </Pressable>
+                  <Pressable
+                    style={[
+                      styles.roundContainer,
+                      file && { backgroundColor: '#1485A3' },
+                    ]}
+                    onPress={handleFilePick}
+                  >
+                    <Image
+                      source={require('../../../assets/images/pin_icon.png')}
+                      style={[
+                        styles.icon,
+                        !file
+                          ? { tintColor: '#6A6A6A' }
+                          : { tintColor: '#FFFFFF' },
+                      ]}
+                    />
+                  </Pressable>
+
+                  {file && isFetching && progress > 0 && progress < 1 && (
+                    <TextPopp4Regular style={{ paddingTop: 10 }}>
+                      {Math.floor(progress * 100)}%
+                    </TextPopp4Regular>
+                  )}
+                </View>
+                <View style={styles.buttonContainer}>
+                  <CustomButton
+                    title={intl.formatMessage({ id: 'label.main.send' })}
+                    onPress={onSendQuestionPressed}
+                    size="small"
+                    icon={'flight'}
+                    isLoading={isFetching}
+                  />
+                </View>
+              </View>
+              <View style={{ direction: 'ltr' }}>
+                <EmojiPicker
+                  onEmojiSelected={(emoji: EmojiType) => handleEmojiPick(emoji)}
+                  open={isOpen}
+                  onClose={() => setIsOpen(false)}
+                  allowMultipleSelections={true}
                 />
               </View>
             </View>
-            <View style={{ direction: 'ltr' }}>
-              <EmojiPicker
-                onEmojiSelected={(emoji: EmojiType) => handleEmojiPick(emoji)}
-                open={isOpen}
-                onClose={() => setIsOpen(false)}
-                allowMultipleSelections={true}
-              />
-            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
