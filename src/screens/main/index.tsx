@@ -329,91 +329,94 @@ export default function MainPage({
       );
     };
 
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      if (!!!userData.approve_notification) return;
+    console.log('onMessage');
 
-      const wallValue = wallRef?.current;
+    messaging().onMessage(async remoteMessage => {
+      onRefresh();
 
-      const data = JSON.parse(remoteMessage?.notification?.body || '');
-      if (remoteMessage?.notification?.title === 'question_Physics') {
-        if (wallValue?.locale === data?.locale) {
-          Toast.show({
-            text1: intl.formatMessage({
-              id: `lang.${locale}.new_physics_question_posted`,
-            }),
-          });
-          getQuestion(
-            (data?.question_id as unknown as number) || 0,
-            'Physics',
-            wallValue?.selWall,
-            wallValue?.questions,
-          );
-        }
-      } else if (
-        remoteMessage?.notification?.title === 'question_Mathematics'
-      ) {
-        if (wallValue?.locale === data?.locale) {
-          Toast.show({
-            text1: intl.formatMessage({
-              id: `lang.${locale}.new_mathematics_question_posted`,
-            }),
-          });
+      // if (!!!userData.approve_notification) return;
 
-          getQuestion(
-            (data?.question_id as unknown as number) || 0,
-            'Mathematics',
-            wallValue?.selWall,
-            wallValue?.questions,
-          );
-        }
-      } else if (remoteMessage?.notification?.title === 'answer') {
-        if (wallValue?.locale === data?.locale) {
-          if (data?.question_user_id === userData?.id) {
-            Toast.show({
-              text1: intl.formatMessage({
-                id: `lang.${locale}.answer_added_on_your_question`,
-              }),
-            });
-          } else if (data?.field === 'Mathematics') {
-            Toast.show({
-              text1: intl.formatMessage({
-                id: `lang.${locale}.answer_posted_on_math_question`,
-              }),
-            });
-          } else if (data?.field === 'Physics') {
-            Toast.show({
-              text1: intl.formatMessage({
-                id: `lang.${locale}.answer_posted_on_physics_question`,
-              }),
-            });
-          }
-          getAnsweredQuestion(
-            (data?.question_id as unknown as number) || 0,
-            wallValue?.questions,
-          );
-        }
-      } else if (remoteMessage?.notification?.title === 'abuse_question') {
-        Toast.show({
-          text1: intl.formatMessage({
-            id: `lang.${locale}.your_question_abused`,
-          }),
-        });
-      } else if (remoteMessage?.notification?.title === 'abuse_answer') {
-        Toast.show({
-          text1: intl.formatMessage({
-            id: `lang.${locale}.your_answer_abused`,
-          }),
-        });
-      } else if (remoteMessage?.notification?.title == 'admin_alarm') {
-        Toast.show({
-          text1: `Administrator Alarm:`,
-          text2: `${remoteMessage?.notification?.body}`,
-        });
-      }
+      // const wallValue = wallRef?.current;
+
+      // const data = JSON.parse(remoteMessage?.notification?.body || '');
+      // if (remoteMessage?.notification?.title === 'question_Physics') {
+      //   if (wallValue?.locale === data?.locale) {
+      //     Toast.show({
+      //       text1: intl.formatMessage({
+      //         id: `lang.${locale}.new_physics_question_posted`,
+      //       }),
+      //     });
+      //     getQuestion(
+      //       (data?.question_id as unknown as number) || 0,
+      //       'Physics',
+      //       wallValue?.selWall,
+      //       wallValue?.questions,
+      //     );
+      //   }
+      // } else if (
+      //   remoteMessage?.notification?.title === 'question_Mathematics'
+      // ) {
+      //   if (wallValue?.locale === data?.locale) {
+      //     Toast.show({
+      //       text1: intl.formatMessage({
+      //         id: `lang.${locale}.new_mathematics_question_posted`,
+      //       }),
+      //     });
+
+      //     getQuestion(
+      //       (data?.question_id as unknown as number) || 0,
+      //       'Mathematics',
+      //       wallValue?.selWall,
+      //       wallValue?.questions,
+      //     );
+      //   }
+      // } else if (remoteMessage?.notification?.title === 'answer') {
+      //   if (wallValue?.locale === data?.locale) {
+      //     if (data?.question_user_id === userData?.id) {
+      //       Toast.show({
+      //         text1: intl.formatMessage({
+      //           id: `lang.${locale}.answer_added_on_your_question`,
+      //         }),
+      //       });
+      //     } else if (data?.field === 'Mathematics') {
+      //       Toast.show({
+      //         text1: intl.formatMessage({
+      //           id: `lang.${locale}.answer_posted_on_math_question`,
+      //         }),
+      //       });
+      //     } else if (data?.field === 'Physics') {
+      //       Toast.show({
+      //         text1: intl.formatMessage({
+      //           id: `lang.${locale}.answer_posted_on_physics_question`,
+      //         }),
+      //       });
+      //     }
+      //     getAnsweredQuestion(
+      //       (data?.question_id as unknown as number) || 0,
+      //       wallValue?.questions,
+      //     );
+      //   }
+      // } else if (remoteMessage?.notification?.title === 'abuse_question') {
+      //   Toast.show({
+      //     text1: intl.formatMessage({
+      //       id: `lang.${locale}.your_question_abused`,
+      //     }),
+      //   });
+      // } else if (remoteMessage?.notification?.title === 'abuse_answer') {
+      //   Toast.show({
+      //     text1: intl.formatMessage({
+      //       id: `lang.${locale}.your_answer_abused`,
+      //     }),
+      //   });
+      // } else if (remoteMessage?.notification?.title == 'admin_alarm') {
+      //   Toast.show({
+      //     text1: `Administrator Alarm:`,
+      //     text2: `${remoteMessage?.notification?.body}`,
+      //   });
+      // }
     });
 
     init();
-    unsubscribe;
   }, []);
 
   useEffect(() => {

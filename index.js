@@ -31,6 +31,8 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
 });
 
+messaging().subscribeToTopic('questionsUpdate');
+
 AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerPlaybackService(() => playbackService);
 console.disableYellowBox = true;
